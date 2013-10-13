@@ -1,0 +1,54 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="500dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Create a Group:"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+                <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Group Name:"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+          
+
+          <EditText
+              android:layout_width="254dp"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="20dp"
+              android:layout_marginTop="20dp"
+              android:text=""
+              android:textColor="@color/black"
+              android:textSize="16sp" />
+          
+        
+                    <Button
+               android:id="@+id/button2"
+               style="?android:attr/buttonStyleSmall"
+               android:layout_marginLeft="20dp"
+              android:layout_marginTop="20dp"
+               android:layout_width="71dp"
+               android:layout_height="wrap_content"
+               android:text="Create"
+               android:onClick="add" />
+           
+        
+</LinearLayout>
+
+		
+</ScrollView>
