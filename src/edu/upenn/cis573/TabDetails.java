@@ -58,17 +58,17 @@ public class TabDetails extends Fragment {
 		TextView mo = (TextView) getView().findViewById(R.id.maxoccupancy);
 		mo.setText("Maximum occupancy: "+o.getMaximumOccupancy());
 
-		TextView pi = (TextView) getView().findViewById(R.id.privacy);
+		//TextView pi = (TextView) getView().findViewById(R.id.privacy);
 		ImageView private_icon = (ImageView) getView().findViewById(R.id.private_icon);
 		if(o.getPrivacy().equals("S")){
-			pi.setText("This study space is a common Space");
+			//pi.setText("This study space is a common Space");
 			if(private_icon!=null){
 				Resources resource = getResources();
 				int resID = resource.getIdentifier("icon_no_private", "drawable", getActivity().getPackageName() );
 				private_icon.setImageResource(resID);
 			}
 		}else{
-			pi.setText("Private space");
+			//pi.setText("Private space");
 			if(private_icon!=null){
 				Resources resource = getResources();
 				int resID = resource.getIdentifier("icon_private", "drawable", getActivity().getPackageName() );
@@ -88,7 +88,7 @@ public class TabDetails extends Fragment {
 			calLayout.setVisibility(View.GONE);
 			resLayout.setVisibility(View.VISIBLE);
 		}
-		TextView wb = (TextView) getView().findViewById(R.id.whiteboard);
+		//TextView wb = (TextView) getView().findViewById(R.id.whiteboard);
 		ImageView wb_icon = (ImageView) getView().findViewById(R.id.whiteboard_icon);
 		if(o.hasWhiteboard()){
 			if(wb_icon!=null){
@@ -96,9 +96,9 @@ public class TabDetails extends Fragment {
 				int resID = resource.getIdentifier("icon_whiteboard", "drawable", getActivity().getPackageName() );
 				wb_icon.setImageResource(resID);
 			}
-			wb.setText("This study space has a whiteboard.");
+			//wb.setText("This study space has a whiteboard.");
 		}else{
-			wb.setText("This study space does not have a whiteboard.");
+			//wb.setText("This study space does not have a whiteboard.");
 			if(wb_icon!=null){
 				Resources resource = getResources();
 				int resID = resource.getIdentifier("icon_no_whiteboard", "drawable", getActivity().getPackageName() );
@@ -106,17 +106,17 @@ public class TabDetails extends Fragment {
 			}
 		}
 
-		TextView com = (TextView) getView().findViewById(R.id.computer);
+		//TextView com = (TextView) getView().findViewById(R.id.computer);
 		ImageView com_icon = (ImageView) getView().findViewById(R.id.computer_icon);
 		if(o.hasComputer()){
-			com.setText("This study space has a computer.");
+			//com.setText("This study space has a computer.");
 			if(com_icon!=null){
 				Resources resource = getResources();
 				int resID = resource.getIdentifier("icon_computer", "drawable", getActivity().getPackageName() );
 				com_icon.setImageResource(resID);
 			}
 		}else{
-			com.setText("This study space does not have computers.");
+			//com.setText("This study space does not have computers.");
 			if(com_icon!=null){
 				Resources resource = getResources();
 				int resID = resource.getIdentifier("icon_no_computer", "drawable", getActivity().getPackageName() );
@@ -124,17 +124,17 @@ public class TabDetails extends Fragment {
 			}
 		}
 
-		TextView proj = (TextView) getView().findViewById(R.id.projector);
+		//TextView proj = (TextView) getView().findViewById(R.id.projector);
 		ImageView proj_icon = (ImageView) getView().findViewById(R.id.projector_icon);
 		if(o.has_big_screen()){
-			proj.setText("This study space has a big screen.");
+			//proj.setText("This study space has a big screen.");
 			if(proj_icon!=null){
 				Resources resource = getResources();
 				int resID = resource.getIdentifier("icon_projector", "drawable", getActivity().getPackageName() );
 				proj_icon.setImageResource(resID);
 			}
 		}else{
-			proj.setText("This study space does not have a big screen.");
+		//	proj.setText("This study space does not have a big screen.");
 			if(proj_icon!=null){
 				Resources resource = getResources();
 				int resID = resource.getIdentifier("icon_no_projector", "drawable", getActivity().getPackageName() );
@@ -209,7 +209,9 @@ public class TabDetails extends Fragment {
 
 	public Intent getTextIntent(View v){
 		Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+		sendIntent.setData(Uri.parse("sms:"));
 		try {
+			sendIntent.putExtra("address","12155885982");
 			sendIntent.putExtra("sms_body", "PennStudySpaces Reservation confirmed. Details - "+
 					o.getBuildingName() + " - " + o.getRooms()[0].getRoomName() + "\nTime: " + begin);
 			sendIntent.setType("vnd.android-dir/mms-sms");

@@ -68,6 +68,7 @@ public class SearchActivity extends Activity {
 	public static double longitude = 0;
 	private Button mFavoritesButton;
 	private Button mSearchButton;
+	private Button mAddGroupButton;
 	
 	Boolean isInternetPresent = false;
 
@@ -650,6 +651,20 @@ public class SearchActivity extends Activity {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
 		return true;
+	}
+	
+	//action to perform group button click
+	public void onGroupButtonClick(View view){
+		System.out.println("Click the help button!");
+		Intent intent = new Intent(this, CreateGroup.class);
+		startActivity(intent);
+	}
+	
+	//action to be performed on clicking view group button
+	public void onViewGroupButtonClick(View view)
+	{
+		Intent intent = new Intent(this, DisplayGroup.class);
+		startActivity(intent);
 	}
 
 }
