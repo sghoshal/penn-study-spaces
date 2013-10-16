@@ -6,20 +6,13 @@ import android.widget.TextView;
 
 public class DisplayGroup extends Activity  {
 
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.displaygroup);
 
-	//TextView textView;
-	//String contacts = "hi";
-	 protected void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
-	        setContentView(R.layout.displaygroup);
+		TextView textView = (TextView) findViewById(R.id.textView1);
 
-	        TextView textView = (TextView) findViewById(R.id.textView1);
-	        
-	        GroupDB db = new GroupDB(this);
-	        
-	        String contacts = db.retrieveContacts();
-	        
-	        textView.setText(contacts);       
-}
-	 
+		String contacts = GroupDB.getInstance(this).retrieveContacts();
+		textView.setText(contacts);       
+	}
 }

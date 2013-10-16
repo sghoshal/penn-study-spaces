@@ -60,6 +60,7 @@ public class StudySpaceListActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sslist);
+		Log.e("TAG", "In StudySpaceList");
 
 		favorites = getSharedPreferences(FAV_PREFERENCES, 0);
 

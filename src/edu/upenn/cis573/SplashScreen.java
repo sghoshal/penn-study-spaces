@@ -4,6 +4,7 @@ import edu.upenn.cis573.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 
 public class SplashScreen extends Activity {
@@ -22,7 +23,7 @@ public class SplashScreen extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
-
+		Log.e("TAG", "In SplashScreen");
 		cd = new ConnectionDetector(getApplicationContext());
 
 		isInternetPresent = cd.isConnectingToInternet();

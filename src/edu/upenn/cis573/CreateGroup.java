@@ -4,25 +4,26 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
-public class CreateGroup extends Activity{
-	GroupDB db;
+public class CreateGroup extends Activity {
+	private EditText groupName;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.creategroup);	
-		db = new GroupDB(this);
 	}
 	
-	public GroupDB getter()
-	{
-		return db;
-	}
-	
-	public void add(View view){
-		//Intent intent = new Intent(FirstActivity.this, SecondActivity.class);
+	/**
+	 * Listener when 'Create' Button is clicked
+	 * Passes the group Name to the next Intent
+	 * @param view
+	 */
+	public void onCreateButtonClick(View view){
+		groupName = (EditText) findViewById(R.id.groupName);
 		Intent intent = new Intent(this, GroupContact.class);
+		intent.putExtra("groupName", groupName.getText().toString());
 		startActivity(intent);
-		
 	}
-	
 }
+

@@ -31,10 +31,12 @@ public class APIAccessor {
 	 */
 	public static ArrayList<StudySpace> getStudySpaces(Context context)
 			throws Exception {
-		System.out.println("Call the APIAccessor Method!");
+		System.out.println("In APIAccessor getStudySpaces() Method!");
 		String line = null;
 		try {
 
+			// Create a file named "studyCache.txt" in the cache directory
+			// if it does not exist
 			File file = new File(context.getCacheDir(), "studyCache.txt");
 
 			BufferedReader reader = null;

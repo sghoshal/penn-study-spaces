@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -132,6 +133,7 @@ public class SearchActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search);
+		Log.e("TAG", "In SearchActivity");
 
 		//get the location Manager in order to get the current location
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -178,7 +180,20 @@ public class SearchActivity extends Activity {
 		});
 
 	}
-
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		return true;
+	}
+	
+	/**
+	 * Calls the method to pop up a time/date dialog box.
+	 * Called when the user clicks the 'Edit' button next to 
+	 * Meeting Date, Meeting Start Time or Meeting End Time
+	 * @param id
+	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
@@ -320,7 +335,12 @@ public class SearchActivity extends Activity {
 				.append(mSearchOptions.getYear()).append(" "));
 	}
 
-	// updates the time we display in the TextView
+	/**
+	 * Updates the meeting Start time displayed in the TextView
+	 * @param timePicker
+	 * @param hourOfDay
+	 * @param minute
+	 */
 	private void updateStartTimeDisplay(TimePicker timePicker, int hourOfDay, int minute) {
 		// do calculation of next time   
 		int fixedMinute = fixMinute(minute);
@@ -342,6 +362,12 @@ public class SearchActivity extends Activity {
 		updateStartTimeText();
 	}
 
+	/**
+	 * Updates the meeting End time displayed in the TextView
+	 * @param timePicker
+	 * @param hourOfDay
+	 * @param minute
+	 */
 	private void updateEndTimeDisplay(TimePicker timePicker, int hourOfDay, int minute) {
 		// do calculation of next time   
 		int fixedMinute = fixMinute(minute);
@@ -363,7 +389,13 @@ public class SearchActivity extends Activity {
 		updateEndTimeText();
 	}
 
-	// updates the date in the TextView
+	/**
+	 * Updates the Meeting date in the TextView
+	 * @param datePicker
+	 * @param year
+	 * @param monthOfYear
+	 * @param dayOfMonth
+	 */
 	private void updateDateDisplay(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
 		// do calculation of next time   
 		int fixedYear = fixYear(year);
@@ -412,6 +444,10 @@ public class SearchActivity extends Activity {
 		}
 	};
 	
+	/**
+	 * Listener when the user presses the OK button on Start Time Dialog Box
+	 * Cancels the Dialog box
+	 */
 	private Button.OnClickListener mStartTimeOKListener = 
 			new OnClickListener() {
 		public void onClick(View view) {
@@ -420,6 +456,10 @@ public class SearchActivity extends Activity {
 		}
 	};
 
+	/**
+	 * Listener when the user presses the OK button on End Time Dialog Box
+	 * Cancels the Dialog box
+	 */
 	private Button.OnClickListener mEndTimeOKListener = 
 			new OnClickListener() {
 		public void onClick(View view) {
@@ -428,6 +468,10 @@ public class SearchActivity extends Activity {
 		}
 	};
 
+	/**
+	 * Listener when the user presses the OK button on Date Dialog Box
+	 * Cancels the Dialog box
+	 */
 	private Button.OnClickListener mDateOKListener = 
 			new OnClickListener() {
 		public void onClick(View view) {
@@ -436,8 +480,16 @@ public class SearchActivity extends Activity {
 		}
 	};
 
+	/**
+	 * Creates a Time Picker Dialog Box
+	 * Attaches listeners for time change and OK button on the Dialog
+	 * @param currentHour
+	 * @param currentMinute
+	 */
 	private void dialogStartTime(int currentHour, int currentMinute) {
-		if (mCurrentDialog != null) mCurrentDialog.cancel();
+		if (mCurrentDialog != null) 
+			mCurrentDialog.cancel();
+		
 		mCurrentDialog = new Dialog(this);
 		mCurrentDialog.setContentView(R.layout.starttimepicker);
 		mCurrentDialog.setCancelable(true);
@@ -454,6 +506,12 @@ public class SearchActivity extends Activity {
 		startTimeOK.setOnClickListener(mStartTimeOKListener);
 	}
 
+	/**
+	 * Creates a Time Picker Dialog Box
+	 * Attaches listeners for time change and OK button on the Dialog
+	 * @param currentHour
+	 * @param currentMinute
+	 */
 	private void dialogEndTime(int currentHour, int currentMinute) {
 		if (mCurrentDialog != null) mCurrentDialog.cancel();
 		mCurrentDialog = new Dialog(this);
@@ -472,6 +530,12 @@ public class SearchActivity extends Activity {
 		endTimeOK.setOnClickListener(mEndTimeOKListener);
 	}
 
+	/**
+	 * Creates a Date Picker Dialog Box
+	 * Attaches listeners for date change and OK button on the Dialog
+	 * @param currentHour
+	 * @param currentMinute
+	 */
 	private void dialogDate(int currentYear, int currentMonth, int currentDay) {
 		if (mCurrentDialog != null) mCurrentDialog.cancel();
 		mCurrentDialog = new Dialog(this);
@@ -488,7 +552,9 @@ public class SearchActivity extends Activity {
 		dateOK.setOnClickListener(mDateOKListener);
 	}
 
-	//Clicking back button. Does not update mSearchOptions.
+	/**
+	 * Clicking back button. Does not update mSearchOptions.
+	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {		
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
@@ -502,7 +568,10 @@ public class SearchActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 	
-	// add this method to search the nearest place
+	/**
+	 * Searches for the nearest place on clicking 'Find Now' Button
+	 * @param view
+	 */
 	public void onFindNowButtonClick(View view){
 		isFNBClicked = true;
 		this.onSearchButtonClick(view);
@@ -517,14 +586,16 @@ public class SearchActivity extends Activity {
 		isFNBClicked = isClicked;
 	}
 
-	//Updates search options then delivers intent
+	/**
+	 * Updates search options then delivers intent
+	 * @param view
+	 */
 	public void onSearchButtonClick(View view) {
 
 		cd = new ConnectionDetector(getApplicationContext());
 
 		// get Internet status
 		isInternetPresent = cd.isConnectingToInternet();
-
 
 		if (isInternetPresent) {
 			putDataInSearchOptionsObject();
@@ -542,11 +613,14 @@ public class SearchActivity extends Activity {
 		} else {
 			cd.showAlertDialog(SearchActivity.this, "No Internet Connection",
 					"You don't have internet connection.", false);
-
 		}
 	}
 
-	//Updates search options then delivers intent
+	/**
+	 * Listener when the Favorites Button (Star) is pressed
+	 * Updates search options then delivers intent
+	 * @param view
+	 */
 	public void onFavsButtonClick(View view) {
 
 		cd = new ConnectionDetector(getApplicationContext());
@@ -574,7 +648,11 @@ public class SearchActivity extends Activity {
 		}
 	}    
 
-	//action to perform help button click
+	/**
+	 * Listener for the Help Button
+	 * Action to perform help button click
+	 * @param view
+	 */
 	public void onHelpButtonClick(View view){
 		System.out.println("Click the help button!");
 		Intent intent = new Intent(this, Help.class);
@@ -646,21 +724,23 @@ public class SearchActivity extends Activity {
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
-		return true;
-	}
 	
-	//action to perform group button click
+	/**
+	 * Listener for 'Create Group' Button click
+	 * Action to perform group button click
+	 * @param view
+	 */
 	public void onGroupButtonClick(View view){
 		System.out.println("Click the help button!");
 		Intent intent = new Intent(this, CreateGroup.class);
 		startActivity(intent);
 	}
 	
-	//action to be performed on clicking view group button
+	/**
+	 * Listener for 'View Group' Button click
+	 * Action to perform group button click
+	 * @param view
+	 */
 	public void onViewGroupButtonClick(View view)
 	{
 		Intent intent = new Intent(this, DisplayGroup.class);
