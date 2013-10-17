@@ -1,5 +1,8 @@
 package edu.upenn.cis573;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -109,27 +112,104 @@ public class GroupDB extends SQLiteOpenHelper{
 		System.out.println("INSERTED CONTACT");
 	}
 
+	
 	/**
-	 * Return a concatenated String of all the phone numbers
-	 * @return 	contactList
+	 * Return a List<String> of all the groups
+	 * @return 	groupsList	List<String> of all the groups
 	 */
-	public String retrieveContacts() {
-		try{
-			String contactlist = null;
+	public List<String> getAllGroups() {
+		List<String> groupsList = new ArrayList<String>();
+		try {
 			SQLiteDatabase db = instance.getReadableDatabase();
-			String query = "SELECT " + GROUP + " FROM " + TABLE_CONTACT;
+			String query = String.format(
+						   "SELECT %s FROM %s GROUP BY %s",
+						   GROUP, TABLE_CONTACT, GROUP);
+					
 			cursor = db.rawQuery(query, null);
-			cursor.moveToFirst();
+			
+			// If move to the first element is possible
 			if (cursor.moveToFirst()) {
 				do {
-					contactlist += cursor.getString(2);
-				}while (cursor.moveToNext());
+					groupsList.add(cursor.getString(cursor.getColumnIndex(GROUP)));
+				} while (cursor.moveToNext());
 			}
-			return contactlist;
+		} 
+		catch(Exception e) {
+			e.printStackTrace();
+			groupsList.add("Group Retrieval Exception Occured!");
 		}
-		catch(Exception e)
-		{
-			return "contacts exception occured " + e;
-		}
+		
+		return groupsList;
 	}
+	
+	/**
+	 * Return a List<String> of all the members in a group
+	 * @return 	groupMembersList	List<String> of all the members in a group
+	 */
+	public List<String> getMembersForGroup(String group) {
+		List<String> groupMembersList = new ArrayList<String>();
+		try {
+			SQLiteDatabase db = instance.getReadableDatabase();
+			String query = String.format(
+						   "SELECT %s, %s FROM %s WHERE %s = '%s' ORDER BY %s",
+						   FIRST_NAME, LAST_NAME, TABLE_CONTACT, GROUP, group,
+						   FIRST_NAME);
+					
+			cursor = db.rawQuery(query, null);
+			
+			// If move to the first element is possible
+			if (cursor.moveToFirst()) {
+				String fName, lName = "";
+				do {
+					fName = cursor.getString(cursor.getColumnIndex(FIRST_NAME));
+					lName = cursor.getString(cursor.getColumnIndex(LAST_NAME));
+					groupMembersList.add(String.format("%s %s", fName, lName));
+				} while (cursor.moveToNext());
+			}
+		} 
+		catch(Exception e) {
+			e.printStackTrace();
+			groupMembersList.add("Members Retrieval Exception Occured!");
+		}
+		
+		return groupMembersList;
+	}
+	
+
+	/**
+	 * Return a List<String> of all the Contacts
+	 * @return 	contactList		List<String> of all the Contacts
+	 */
+	public List<String> getAllContacts() {
+		List<String> contactlist = new ArrayList<String>();
+		try {
+			SQLiteDatabase db = instance.getReadableDatabase();
+			String query = String.format(
+						   "SELECT * FROM %s ORDER BY %s", 
+						   TABLE_CONTACT, FIRST_NAME);
+					
+			cursor = db.rawQuery(query, null);
+			
+			// If move to the first element is possible
+			if (cursor.moveToFirst()) {
+				String fName, lName, pNumber, email, grp = "";
+				do {
+					fName = cursor.getString(cursor.getColumnIndex(FIRST_NAME));
+					lName = cursor.getString(cursor.getColumnIndex(LAST_NAME));
+					pNumber = cursor.getString(cursor.getColumnIndex(PHONE_NUMBER));
+					email = cursor.getString(cursor.getColumnIndex(EMAIL));
+					grp = cursor.getString(cursor.getColumnIndex(GROUP));
+					contactlist.add(String.format("%s %s %s %s %s",
+							fName, lName, pNumber, email, grp));
+				} while (cursor.moveToNext());
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			contactlist.add("Contacts Exception Occured.");
+		}
+		return contactlist;
+
+	}
+	
 }
