@@ -143,33 +143,34 @@ public class GroupDB extends SQLiteOpenHelper{
 	}
 	
 	/**
-	 * Return a List<String> of all the members in a group
-	 * @return 	groupMembersList	List<String> of all the members in a group
+	 * Return a List<PersonDetails> of all the members in a group as PersonDetails instances
+	 * @return 	groupMembersList	List<PersonDetails> of all the members in a group
 	 */
-	public List<String> getMembersForGroup(String group) {
-		List<String> groupMembersList = new ArrayList<String>();
+	public List<PersonDetails> getMembersForGroup(String group) {
+		List<PersonDetails> groupMembersList = new ArrayList<PersonDetails>();
 		try {
 			SQLiteDatabase db = instance.getReadableDatabase();
 			String query = String.format(
-						   "SELECT %s, %s FROM %s WHERE %s = '%s' ORDER BY %s",
-						   FIRST_NAME, LAST_NAME, TABLE_CONTACT, GROUP, group,
-						   FIRST_NAME);
+						   "SELECT %s, %s, %s, %s FROM %s WHERE %s = '%s' ORDER BY %s",
+						   FIRST_NAME, LAST_NAME, PHONE_NUMBER, EMAIL,
+						   TABLE_CONTACT, GROUP, group, FIRST_NAME);
 					
 			cursor = db.rawQuery(query, null);
 			
 			// If move to the first element is possible
 			if (cursor.moveToFirst()) {
-				String fName, lName = "";
+				String fName, lName, phoneNum, email = "";
 				do {
 					fName = cursor.getString(cursor.getColumnIndex(FIRST_NAME));
 					lName = cursor.getString(cursor.getColumnIndex(LAST_NAME));
-					groupMembersList.add(String.format("%s %s", fName, lName));
+					phoneNum = cursor.getString(cursor.getColumnIndex(PHONE_NUMBER));
+					email = cursor.getString(cursor.getColumnIndex(EMAIL));
+					groupMembersList.add(new PersonDetails(fName, lName, phoneNum, email));
 				} while (cursor.moveToNext());
 			}
 		} 
 		catch(Exception e) {
 			e.printStackTrace();
-			groupMembersList.add("Members Retrieval Exception Occured!");
 		}
 		
 		return groupMembersList;
@@ -209,7 +210,44 @@ public class GroupDB extends SQLiteOpenHelper{
 			contactlist.add("Contacts Exception Occured.");
 		}
 		return contactlist;
-
 	}
 	
+	/**
+	 * Returns true if rows were deleted, false if no rows were deleted
+	 * or if there was an exception
+	 * @param group
+	 * @param phNum
+	 * @return
+	 */
+	public boolean removeContactFromGroup(String group, String phNum) {
+		try {
+			SQLiteDatabase db = instance.getReadableDatabase();
+			String whereClause = String.format("%s = '%s' AND %s = '%s' ", 
+								 GROUP, group, PHONE_NUMBER, phNum);
+			return db.delete(TABLE_CONTACT, whereClause, null) > 0;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
+	 * Delete entire Group
+	 * @param group
+	 * @return
+	 */
+	public boolean removeEntireGroup (String group) {
+		try {
+			SQLiteDatabase db = instance.getReadableDatabase();
+			String whereClause = String.format("%s = '%s' ", GROUP, group);
+			int ret = db.delete(TABLE_CONTACT, whereClause, null);
+			System.out.println("RET: " + ret);
+			return (ret > 0);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

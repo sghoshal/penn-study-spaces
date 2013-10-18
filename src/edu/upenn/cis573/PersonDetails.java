@@ -55,4 +55,12 @@ public class PersonDetails {
 		this.email = email;
 	}
  
+	public String getUniqueId () {
+		return (String.format("%s%s", firstName, phone));
+	}
+	
+	@Override
+	public String toString() {
+		return (String.format("%s %s", firstName, lastName));
+	}
 }
