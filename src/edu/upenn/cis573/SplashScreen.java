@@ -23,7 +23,7 @@ public class SplashScreen extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
-		Log.e("TAG", "In SplashScreen");
+
 		cd = new ConnectionDetector(getApplicationContext());
 
 		isInternetPresent = cd.isConnectingToInternet();

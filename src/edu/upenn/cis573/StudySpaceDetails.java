@@ -148,4 +148,10 @@ public class StudySpaceDetails extends FragmentActivity {
 		return true;
 	}
 
+	public void onHelpButtonClick(View view){
+		System.out.println("Click the help button!");
+		Intent intent = new Intent(this, Help.class);
+		startActivity(intent);
+	}
+
 }

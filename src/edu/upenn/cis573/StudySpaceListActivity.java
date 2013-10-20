@@ -648,4 +648,10 @@ public class StudySpaceListActivity extends ListActivity {
 	public ArrayList<StudySpace> getList() {
 		return ss_list;
 	}
+
+	public void onHelpButtonClick(View view){
+		System.out.println("Click the help button!");
+		Intent intent = new Intent(this, Help.class);
+		startActivity(intent);
+	}
 }

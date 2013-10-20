@@ -35,6 +35,7 @@ public class TabDetails extends Fragment {
 		View view = inflater.inflate(R.layout.tabdetails, container, false);
 		return view;
 	}
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -59,7 +60,9 @@ public class TabDetails extends Fragment {
 		mo.setText("Maximum occupancy: "+o.getMaximumOccupancy());
 
 		//TextView pi = (TextView) getView().findViewById(R.id.privacy);
+		
 		ImageView private_icon = (ImageView) getView().findViewById(R.id.private_icon);
+		
 		if(o.getPrivacy().equals("S")){
 			//pi.setText("This study space is a common Space");
 			if(private_icon!=null){
@@ -79,6 +82,7 @@ public class TabDetails extends Fragment {
 		TextView res = (TextView) getView().findViewById(R.id.reservetype);
 		View calLayout = getView().findViewById(R.id.addCal);
 		View resLayout = getView().findViewById(R.id.reserve);
+		
 		if(o.getReserveType().equals("N")){
 			res.setText("This study space is non-reservable.");
 			calLayout.setVisibility(View.VISIBLE);
@@ -172,7 +176,6 @@ public class TabDetails extends Fragment {
 				an.setVisibility(View.GONE);
 		}
 	}
-
 	public void onFavClick(View v){
 		unfav.setVisibility(View.VISIBLE);
 		fav.setVisibility(View.GONE);
@@ -194,6 +197,11 @@ public class TabDetails extends Fragment {
 		return k;
 	}
 
+	/**
+	 * If the user wants to add the date to his calendar
+	 * @param v
+	 * @return
+	 */
 	public Intent getCalIntent(View v){
 		Calendar cal = Calendar.getInstance(Locale.US);              
 		Intent intent = new Intent(Intent.ACTION_EDIT);
@@ -209,9 +217,9 @@ public class TabDetails extends Fragment {
 
 	public Intent getTextIntent(View v){
 		Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-		sendIntent.setData(Uri.parse("sms:"));
+		sendIntent.setData(Uri.parse("smsto:" + "12154211284"));
 		try {
-			sendIntent.putExtra("address","12155885982");
+			sendIntent.putExtra("address","12154211284");
 			sendIntent.putExtra("sms_body", "PennStudySpaces Reservation confirmed. Details - "+
 					o.getBuildingName() + " - " + o.getRooms()[0].getRoomName() + "\nTime: " + begin);
 			sendIntent.setType("vnd.android-dir/mms-sms");
@@ -228,7 +236,7 @@ public class TabDetails extends Fragment {
 		// http://stackoverflow.com/questions/2197741/how-to-send-email-from-my-android-application
 		Intent i = new Intent(Intent.ACTION_SEND);
 		i.setType("message/rfc822");
-		i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"@"});
+		i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"soumyadeep.ghoshal@gmail.com"});
 		i.putExtra(Intent.EXTRA_SUBJECT, "Penn Study Space Reservation Invitation");
 		i.putExtra(Intent.EXTRA_TEXT   , "Building Name: " +
 					o.getBuildingName() + "\nRoom Name: " + o.getRooms()[0].getRoomName() + "\nStart Time: " + begin);

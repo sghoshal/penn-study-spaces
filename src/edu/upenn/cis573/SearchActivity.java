@@ -659,6 +659,10 @@ public class SearchActivity extends Activity {
 		startActivity(intent);
 	}
 	
+	/**
+	 * Sets the fields in SearchOptions instance
+	 * according to the options selected by the user
+	 */
 	private void putDataInSearchOptionsObject() {
 		mSearchOptions.setNumberOfPeople( mNumberOfPeopleSlider.getProgress() );
 		mSearchOptions.setPrivate( mPrivateCheckBox.isChecked() );
@@ -672,6 +676,15 @@ public class SearchActivity extends Activity {
 		mSearchOptions.setLib(mLibBox.isChecked());
 		mSearchOptions.setOth(mOthBox.isChecked());
 		mSearchOptions.setFavSelected(false);
+		
+		/* If none of the check boxes are checked, search for all */
+		if((!mEngiBox.isChecked()) && (!mWharBox.isChecked()) && 
+				(!mLibBox.isChecked()) && (!mOthBox.isChecked())) {
+			mSearchOptions.setEngi(true);
+			mSearchOptions.setWhar(true);
+			mSearchOptions.setLib(true);
+			mSearchOptions.setOth(true);
+		}
 	}
 
 	private void resetTimeAndDateData() {
@@ -721,7 +734,6 @@ public class SearchActivity extends Activity {
 		mPickEndTime = (Button) findViewById(R.id.pickEndTime);
 		mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
 		mPickDate = (Button) findViewById(R.id.pickDate);
-
 	}
 
 	

@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 
 /**
@@ -35,6 +36,8 @@ public class DisplayGroup extends Activity {
 		setContentView(R.layout.displaygroup);  
 
 		final ListView listViewGroups = (ListView) findViewById(R.id.listviewGroups);
+		
+		
 		listOfGroups = GroupDB.getInstance(this).getAllGroups();
 		adapter = new StableArrayAdapter(this,
 				android.R.layout.simple_list_item_1, listOfGroups);
@@ -42,13 +45,16 @@ public class DisplayGroup extends Activity {
 
 		setClickListener(listViewGroups);
 		setLongClickListener(listViewGroups);
+	
 	}
 
+	
 	/**
 	 * When group is clicked, a new Activity is loaded = GroupMemebersActivity
 	 * @param listViewGroups
 	 */
 	public void setClickListener(ListView listViewGroups) {
+		
 		listViewGroups.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
