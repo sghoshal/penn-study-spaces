@@ -31,7 +31,9 @@
     <string name="create_group_button">Create Group</string>
     <string name="add_member">Add Member</string>
     <string name="yes">Yes</string>
-	<string name="no">No</string>
-        
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
     
+    <string name="title_activity_notify_selected_groups">Select Groups To Notify</string>
+
 </resources>

@@ -16,7 +16,7 @@ public class CreateGroup extends Activity {
 	
 	/**
 	 * Listener when 'Create' Button is clicked
-	 * Passes the group Name to the next Intent
+	 * Passes the group Name to the next Intent (GroupContact.java)
 	 * @param view
 	 */
 	public void onCreateButtonClick(View view){

@@ -44,7 +44,7 @@ public class GroupContact extends Activity{
 
 	/**
 	 * Inner class as a click listener on the edit texts
-	 * @author soum
+	 * @author sghoshal
 	 *
 	 */
 	private class editTextOnClick implements View.OnClickListener{
@@ -92,6 +92,8 @@ public class GroupContact extends Activity{
 				textEditLastName.setText(surname);
 				textEditPhoneNum.setText(number);
 				
+				// TODO Find out how to fetch email address
+				textEditEmail.setText("");
 				checkForUnfilledTexts();
 			}
 		}

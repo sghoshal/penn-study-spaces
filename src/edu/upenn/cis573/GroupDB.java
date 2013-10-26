@@ -250,4 +250,69 @@ public class GroupDB extends SQLiteOpenHelper{
 		}
 		return false;
 	}
+	
+	/**
+	 * Return all the VALID phone numbers from a particular group
+	 * @return
+	 */
+	public List<String> getAllPhoneNumbers(String grpName) {
+		List<String> phonelist = new ArrayList<String>();
+		try {
+			SQLiteDatabase db = instance.getReadableDatabase();
+			String query = String.format(
+						   "SELECT %s FROM %s WHERE %s = '%s' ORDER BY %s", 
+						   PHONE_NUMBER, TABLE_CONTACT, GROUP, grpName, FIRST_NAME);
+					
+			cursor = db.rawQuery(query, null);
+			
+			// If move to the first element is possible
+			if (cursor.moveToFirst()) {
+
+				String pNumber = "";
+				do {
+					pNumber = cursor.getString(cursor.getColumnIndex(PHONE_NUMBER));
+					if (pNumber != null && (!pNumber.equals(""))) {
+						phonelist.add(pNumber);
+					}
+				} while (cursor.moveToNext());
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			phonelist.add("Phone numbers Exception Occured.");
+		}
+		return phonelist;
+	}
+	
+	/**
+	 * Return all the VALID email IDs from a particular group
+	 * @return
+	 */
+	public List<String> getAllEmails(String grpName) {
+		List<String> emaillist = new ArrayList<String>();
+		try {
+			SQLiteDatabase db = instance.getReadableDatabase();
+			String query = String.format(
+						   "SELECT %s FROM %s WHERE %s = '%s' ORDER BY %s", 
+						   EMAIL, TABLE_CONTACT, GROUP, grpName, FIRST_NAME);
+					
+			cursor = db.rawQuery(query, null);
+			
+			// If move to the first element is possible
+			if (cursor.moveToFirst()) {
+				String email = "";
+				do {
+					
+					email = cursor.getString(cursor.getColumnIndex(EMAIL));
+					if (email != null && (!email.equals("")))
+						emaillist.add(email);
+				} while (cursor.moveToNext());
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			emaillist.add("Phone numbers Exception Occured.");
+		}
+		return emaillist;
+	}
 }
