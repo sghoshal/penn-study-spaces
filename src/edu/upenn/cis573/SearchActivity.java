@@ -751,7 +751,7 @@ public class SearchActivity extends Activity {
 		/*
 		 * This is the case when 'ALL' is not checked and other checkboxes might be 
 		 * checked (atleast one). In this case, the query runs for the clicked 
-		 * check boxes only
+		 * check boxes only	
 		 */
 		else
 		{
@@ -763,8 +763,8 @@ public class SearchActivity extends Activity {
 			SharedPreferences.Editor editor = search.edit();
 			
 			editor.putBoolean("engineering", mEngiBox.isChecked());
-			editor.putBoolean("library", mWharBox.isChecked());
-			editor.putBoolean("wharton", mLibBox.isChecked());
+			editor.putBoolean("library", mLibBox.isChecked());
+			editor.putBoolean("wharton", mWharBox.isChecked());
 			editor.putBoolean("others", mOthBox.isChecked());
 			editor.putBoolean("all", false);
 			editor.commit();
