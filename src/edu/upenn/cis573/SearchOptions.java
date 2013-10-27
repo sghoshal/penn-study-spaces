@@ -7,10 +7,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class SearchOptions implements Parcelable, Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 	private int numberOfPeople = 0;
-	
+
 	private int startHour;
 	private int startMinute;
 	private int endHour;
@@ -18,7 +18,7 @@ public class SearchOptions implements Parcelable, Serializable {
 	private int year;
 	private int month;
 	private int day;
-	
+
 	private boolean isPrivate = false;
 	private boolean hasWhiteboard = false;
 	private boolean hasComputer = false;
@@ -26,12 +26,15 @@ public class SearchOptions implements Parcelable, Serializable {
 	private boolean favSelected = false;
 	//added
 	private boolean isReservable = false;
-	
+
 	private boolean engiBox;
 	private boolean wharBox;
 	private boolean libBox;
 	private boolean othBox;
-	
+	//Code addition by lasya
+	private boolean allBox;
+	//End of code addition by lasya
+
 	public void setNumberOfPeople(int _numberOfPeople) {
 		numberOfPeople = _numberOfPeople;
 	}
@@ -83,12 +86,18 @@ public class SearchOptions implements Parcelable, Serializable {
 	public void setOth(boolean _bool){
 		othBox = _bool;
 	}
-	
+
 	//added
 	public void setReservable(boolean _bool){
 		isReservable = _bool;
 	}
-	
+	//Code addition by lasya
+	public void setAll(boolean _bool){
+		allBox = _bool;
+
+	}
+	//End of code addition by Lasya
+
 	public int getNumberOfPeople() {
 		return numberOfPeople;
 	}
@@ -140,58 +149,62 @@ public class SearchOptions implements Parcelable, Serializable {
 	public boolean getOth(){
 		return othBox;
 	}
-	
+
 	public boolean getReservable(){
 		return isReservable;
 	}
-	
-	
-	
-	
+	//Code addition by Lasya
+	public boolean getAll(){
+		return allBox;
+	}
+	//End of code addition by Lasya
+
+
+
 	public Date getStartDate() {
-		
-    	// Create Date object from the raw time and date data:
-		
-    	Date startDate = new Date();
-    	//Log.e("year",Integer.toString(year));
-    	startDate.setYear(year - 1900);    	
-    	startDate.setMonth(month);
-    	startDate.setDate(day);
-    	startDate.setHours(startHour);
-    	startDate.setMinutes(startMinute);
-    	
-    	return startDate;
+
+		// Create Date object from the raw time and date data:
+
+		Date startDate = new Date();
+		//Log.e("year",Integer.toString(year));
+		startDate.setYear(year - 1900);    	
+		startDate.setMonth(month);
+		startDate.setDate(day);
+		startDate.setHours(startHour);
+		startDate.setMinutes(startMinute);
+
+		return startDate;
 	}
 	public Date getEndDate() {
-		
+
 		// Create Date object from the raw time and date data:
-		
-    	Date endDate = new Date();
-    	
-    	endDate.setYear(year - 1900);
-    	endDate.setMonth(month);
-    	endDate.setDate(day);
-    	endDate.setHours(endHour);
-    	endDate.setMinutes(endMinute);
-    	
-    	return endDate;
+
+		Date endDate = new Date();
+
+		endDate.setYear(year - 1900);
+		endDate.setMonth(month);
+		endDate.setDate(day);
+		endDate.setHours(endHour);
+		endDate.setMinutes(endMinute);
+
+		return endDate;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	// Parcelable stuff:
-	
+
 	public int describeContents() {
-        return 0;
-    }
-	
+		return 0;
+	}
+
 	/** save object in parcel */
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(numberOfPeople);
-        out.writeInt(startHour);
-        out.writeInt(startMinute);
+	public void writeToParcel(Parcel out, int flags) {
+		out.writeInt(numberOfPeople);
+		out.writeInt(startHour);
+		out.writeInt(startMinute);
 		out.writeInt(endHour);
 		out.writeInt(endMinute);
 		out.writeInt(year);
@@ -201,46 +214,46 @@ public class SearchOptions implements Parcelable, Serializable {
 		boolean[] booleanArray = {isPrivate, 
 				hasWhiteboard, hasComputer, hasProjector,isReservable, engiBox, wharBox, libBox, othBox, favSelected};
 		out.writeBooleanArray(booleanArray);
-    }
+	}
 
-    public static final Parcelable.Creator<SearchOptions> CREATOR
-            = new Parcelable.Creator<SearchOptions>() {
-        public SearchOptions createFromParcel(Parcel in) {
-            return new SearchOptions(in);
-        }
+	public static final Parcelable.Creator<SearchOptions> CREATOR
+	= new Parcelable.Creator<SearchOptions>() {
+		public SearchOptions createFromParcel(Parcel in) {
+			return new SearchOptions(in);
+		}
 
-        public SearchOptions[] newArray(int size) {
-            return new SearchOptions[size];
-        }
-    };
+		public SearchOptions[] newArray(int size) {
+			return new SearchOptions[size];
+		}
+	};
 
-    /** recreate object from parcel */
-    private SearchOptions(Parcel in) {
-        numberOfPeople = in.readInt();
-        startHour = in.readInt();
-        startMinute = in.readInt();
-        endHour = in.readInt();
-        endMinute = in.readInt();
-        year = in.readInt();
-        month = in.readInt();
-        day = in.readInt();
-        //added false
-        boolean[] booleanArray = {false, false, false, false, false, false, false, false, false,false};
-        in.readBooleanArray(booleanArray);
-        isPrivate = booleanArray[0];
-        hasWhiteboard = booleanArray[1];
-        hasComputer = booleanArray[2];
-        hasProjector = booleanArray[3];
-        isReservable = booleanArray[4];
-        engiBox = booleanArray[5];
-        wharBox = booleanArray[6];
-        libBox = booleanArray[7];
-        othBox = booleanArray[8];
-        favSelected = booleanArray[9];
-        //added
-        
-    }
-    
+	/** recreate object from parcel */
+	private SearchOptions(Parcel in) {
+		numberOfPeople = in.readInt();
+		startHour = in.readInt();
+		startMinute = in.readInt();
+		endHour = in.readInt();
+		endMinute = in.readInt();
+		year = in.readInt();
+		month = in.readInt();
+		day = in.readInt();
+		//added false
+		boolean[] booleanArray = {false, false, false, false, false, false, false, false, false,false};
+		in.readBooleanArray(booleanArray);
+		isPrivate = booleanArray[0];
+		hasWhiteboard = booleanArray[1];
+		hasComputer = booleanArray[2];
+		hasProjector = booleanArray[3];
+		isReservable = booleanArray[4];
+		engiBox = booleanArray[5];
+		wharBox = booleanArray[6];
+		libBox = booleanArray[7];
+		othBox = booleanArray[8];
+		favSelected = booleanArray[9];
+		//added
+
+	}
+
 	public SearchOptions() {
 		// TODO Auto-generated constructor stub
 	}

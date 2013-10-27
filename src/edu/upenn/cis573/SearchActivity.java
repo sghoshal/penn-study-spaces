@@ -49,6 +49,9 @@ public class SearchActivity extends Activity {
 	private Button mPickEndTime;
 	private TextView mDateDisplay;
 	private Button mPickDate;
+	//Code added by Lasya
+	private CheckBox mAll;
+	//End of code added by Lasya
 	private static boolean isFNBClicked = false;
 
 	static final int START_TIME_DIALOG_ID = 0;
@@ -119,11 +122,18 @@ public class SearchActivity extends Activity {
 
 	}         
 
-	//set longitude method, this is used for build in test
+	/**
+	 * Set longitude method, this is used for build in test
+	 * @param lon
+	 */
 	public static void setLongitude(double lon){
 		longitude = lon;
 	}
-	//set latitude method, this is used for build in test
+	
+	/**
+	 * Set latitude method, this is used for build in test
+	 * @param lat
+	 */
 	public static void setLatitude(double lat){
 		latitude = lat;
 	}
@@ -134,6 +144,8 @@ public class SearchActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search);
 		Log.e("TAG", "In SearchActivity");
+		
+		System.out.println("SEARCH ACTIVITY CREATED");
 
 		//get the location Manager in order to get the current location
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -226,10 +238,14 @@ public class SearchActivity extends Activity {
 		editor.putBoolean("private", mSearchOptions.getPrivate());
 		editor.putBoolean("computer", mSearchOptions.getComputer());
 		editor.putBoolean("projector", mSearchOptions.getProjector());
-		editor.putBoolean("engineering", mSearchOptions.getEngi());
-		editor.putBoolean("library", mSearchOptions.getLib());
-		editor.putBoolean("wharton", mSearchOptions.getWhar());
-		editor.putBoolean("others", mSearchOptions.getOth());
+		
+		
+		editor.putBoolean("engineering", search.getBoolean("engineering", false));
+		editor.putBoolean("library", search.getBoolean("library", false));
+		editor.putBoolean("wharton", search.getBoolean("wharton", false));
+		editor.putBoolean("others", search.getBoolean("others", false));
+		editor.putBoolean("all", search.getBoolean("all", false));
+		
 		editor.putInt("numberOfPeople", mSearchOptions.getNumberOfPeople());
 		editor.putBoolean("whiteboard", mSearchOptions.getWhiteboard());
 		//added
@@ -255,10 +271,22 @@ public class SearchActivity extends Activity {
 	}
 
 	private void setUpCheckBoxes() {
-		mEngiBox.setChecked(search.getBoolean("engineering", true));
-		mWharBox.setChecked(search.getBoolean("wharton", true));
-		mLibBox.setChecked(search.getBoolean("library", true));
-		mOthBox.setChecked(search.getBoolean("others", true));
+		
+		System.out.println("mEngi: " + search.getBoolean("engineering", false));
+		System.out.println("WHART: " + search.getBoolean("wharton", false));
+		System.out.println("LIB: " + search.getBoolean("library", false));
+		System.out.println("OTH: " + search.getBoolean("others", false));
+		System.out.println("ALLLL: " + search.getBoolean("all", false));
+		
+		
+		mEngiBox.setChecked(search.getBoolean("engineering", false));
+		mWharBox.setChecked(search.getBoolean("wharton", false));
+		mLibBox.setChecked(search.getBoolean("library", false));
+		mOthBox.setChecked(search.getBoolean("others", false));
+		//Code addition by lasya
+		mAll.setChecked(search.getBoolean("all", false));
+		
+		//End of code addition by lasya
 	}
 
 	private void setUpPrivate() {
@@ -671,20 +699,78 @@ public class SearchActivity extends Activity {
 		mSearchOptions.setProjector( mProjectorCheckBox.isChecked() );
 		mSearchOptions.setReservable(mReservableCheckBox.isChecked());
 
-		mSearchOptions.setEngi(mEngiBox.isChecked());
-		mSearchOptions.setWhar(mWharBox.isChecked());
-		mSearchOptions.setLib(mLibBox.isChecked());
-		mSearchOptions.setOth(mOthBox.isChecked());
+		mSearchOptions.setAll(mAll.isChecked());
 		mSearchOptions.setFavSelected(false);
 		
-		/* If none of the check boxes are checked, search for all */
-		if((!mEngiBox.isChecked()) && (!mWharBox.isChecked()) && 
-				(!mLibBox.isChecked()) && (!mOthBox.isChecked())) {
+		/* If 'All' check box is checked along with others, 
+		 * then the other checkboxes have true value
+		 * But when the activity is refreshed, only 'ALL' will be checked */
+		
+		if(mAll.isChecked()) {
 			mSearchOptions.setEngi(true);
 			mSearchOptions.setWhar(true);
 			mSearchOptions.setLib(true);
 			mSearchOptions.setOth(true);
+			
+			SharedPreferences.Editor editor = search.edit();
+			
+			editor.putBoolean("engineering", false);
+			editor.putBoolean("library", false);
+			editor.putBoolean("wharton", false);
+			editor.putBoolean("others", false);
+			editor.putBoolean("all", true);
+			editor.commit();
+
 		}
+		
+		/*
+		 * If nothing is checked, the query runs for 'ALL' results. When the page is 
+		 * revisited, 'ALL' is selected and nothing else
+		 */
+		
+		else if(!mEngiBox.isChecked()&&
+				!mWharBox.isChecked() &&
+				!mLibBox.isChecked()&&
+				!mOthBox.isChecked()
+				) {
+			mSearchOptions.setEngi(true);
+			mSearchOptions.setWhar(true);
+			mSearchOptions.setLib(true);
+			mSearchOptions.setOth(true);
+			
+			SharedPreferences.Editor editor = search.edit();
+			
+			editor.putBoolean("engineering", false);
+			editor.putBoolean("library", false);
+			editor.putBoolean("wharton", false);
+			editor.putBoolean("others", false);
+			editor.putBoolean("all", true);
+			editor.commit();
+		}
+		
+		/*
+		 * This is the case when 'ALL' is not checked and other checkboxes might be 
+		 * checked (atleast one). In this case, the query runs for the clicked 
+		 * check boxes only
+		 */
+		else
+		{
+			mSearchOptions.setEngi(mEngiBox.isChecked());
+			mSearchOptions.setWhar(mWharBox.isChecked());
+			mSearchOptions.setLib(mLibBox.isChecked());
+			mSearchOptions.setOth(mOthBox.isChecked());
+			
+			SharedPreferences.Editor editor = search.edit();
+			
+			editor.putBoolean("engineering", mEngiBox.isChecked());
+			editor.putBoolean("library", mWharBox.isChecked());
+			editor.putBoolean("wharton", mLibBox.isChecked());
+			editor.putBoolean("others", mOthBox.isChecked());
+			editor.putBoolean("all", false);
+			editor.commit();
+		}
+		
+		
 	}
 
 	private void resetTimeAndDateData() {
@@ -734,6 +820,9 @@ public class SearchActivity extends Activity {
 		mPickEndTime = (Button) findViewById(R.id.pickEndTime);
 		mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
 		mPickDate = (Button) findViewById(R.id.pickDate);
+		//Code added by Lasya
+		mAll = (CheckBox) findViewById(R.id.all);
+		//End of code addition by Lasya
 	}
 
 	
