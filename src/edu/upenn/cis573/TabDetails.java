@@ -4,8 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import edu.upenn.cis573.R;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -240,6 +238,7 @@ public class TabDetails extends Fragment {
 		i.putExtra(Intent.EXTRA_SUBJECT, "Penn Study Space Reservation Invitation");
 		i.putExtra(Intent.EXTRA_TEXT   , "Building Name: " +
 					o.getBuildingName() + "\nRoom Name: " + o.getRooms()[0].getRoomName() + "\nStart Time: " + begin);
+		
 		return i;
 	}
 
@@ -248,25 +247,40 @@ public class TabDetails extends Fragment {
 		if(k!=null) {
 			startActivity(k);
 		}
-
+		
+		final Intent notifyGrpIntent = new Intent(getActivity(), NotifySelectedGroups.class);
+		notifyGrpIntent.putExtra("sms_body", "PennStudySpaces Reservation confirmed. Details - "+
+				o.getBuildingName() + " - " + o.getRooms()[0].getRoomName() + "\nTime: " + begin);
+		notifyGrpIntent.putExtra("emailSubject", "Penn Study Space Reservation Invitation");
+		notifyGrpIntent.putExtra("emailBody"   , "Building Name: " +
+					o.getBuildingName() + "\nRoom Name: " + o.getRooms()[0].getRoomName() + "\nStart Time: " + begin);
+		
 		final Intent calIntent = getCalIntent(v);
-		final Intent sendIntent = getTextIntent(v);
+		//final Intent sendIntent = getTextIntent(v);
 
 		CheckBox text = (CheckBox) getView().findViewById(R.id.resTextCheckBox);
 		if(text!=null && text.isChecked()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle("Pick a sharing option:");
+			
 			builder.setPositiveButton("Text", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
-					startActivity(sendIntent);
+					
+					notifyGrpIntent.putExtra("textEmail", "Text");
+					startActivity(notifyGrpIntent);
 					dialog.cancel();
 				}
 			});
+			
 			builder.setNeutralButton("Email", new DialogInterface.OnClickListener() {
+				
 				public void onClick(DialogInterface dialog, int id) {
 					try {
-					    startActivity(Intent.createChooser(getEmailIntent(), "Send mail..."));
+					    
+						notifyGrpIntent.putExtra("textEmail", "Email");
+						startActivity(notifyGrpIntent);
 						dialog.cancel();
+						
 					} catch (android.content.ActivityNotFoundException ex) {
 					    Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
 					}		
@@ -274,12 +288,13 @@ public class TabDetails extends Fragment {
 			});
 			builder.setNegativeButton("Both", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
-					startActivity(sendIntent);
-					dialog.cancel();
-						
+
 					try {
-					    startActivity(Intent.createChooser(getEmailIntent(), "Send mail..."));
+						
+						notifyGrpIntent.putExtra("textEmail", "Both");
+						startActivity(notifyGrpIntent);
 						dialog.cancel();
+						
 					} catch (android.content.ActivityNotFoundException ex) {
 					    Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
 					}

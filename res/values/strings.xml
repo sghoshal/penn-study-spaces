@@ -33,6 +33,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
+    <string name="notify_button">Notify</string>
     
     <string name="title_activity_notify_selected_groups">Select Groups To Notify</string>
 
