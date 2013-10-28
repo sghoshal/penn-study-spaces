@@ -242,6 +242,14 @@ public class TabDetails extends Fragment {
 		return i;
 	}
 
+	/**
+	 * Listener when the user clicks on the 'Reserve' Button
+	 * Starts the Web to let the user book the room.
+	 * Then starts Pops up a dialog box asking the user for the sharing option
+	 * User is taken to the groups page to select the group he/she wants to select
+	 * 
+	 * @param v
+	 */
 	public void onReserveClick(View v){
 		Intent k = getReserveIntent();
 		if(k!=null) {
@@ -308,8 +316,9 @@ public class TabDetails extends Fragment {
 		if(calBox !=null && calBox.isChecked()) {
 			startActivity(calIntent);
 		}
-
 	}
+	
+	
 	public void onCalClick(View v){
 
 		final Intent calIntent = getCalIntent(v);

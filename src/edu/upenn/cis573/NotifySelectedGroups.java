@@ -1,5 +1,6 @@
 package edu.upenn.cis573;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,14 +11,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.sax.TextElementListener;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 
 /**
@@ -27,8 +26,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
  * @author sghoshal
  *
  */
-
-// TODO Start the text and email intent from here.
 public class NotifySelectedGroups extends Activity {
 
 	private List<String> listOfGroups;
@@ -53,6 +50,9 @@ public class NotifySelectedGroups extends Activity {
 		this.emailBody = receivedIntent.getExtras().getString("emailBody");
 		this.textEmail = receivedIntent.getExtras().getString("textEmail");
 		
+		this.groupPhoneNumbers = new ArrayList<String>();
+		this.groupEmails = new ArrayList<String>();
+		
 		System.out.println (String.format("SMSBODY: %s EMAILSUB: %s EMAILBODY: %s", 
 				smsBody, emailSubject, emailBody));
 		final ListView listViewGroups = (ListView) findViewById(R.id.notify_listView);
@@ -66,6 +66,7 @@ public class NotifySelectedGroups extends Activity {
 	}
 	
 	/**
+	 * The handler when the user long clicks a group to notify from this page
 	 * 
 	 * @author sghoshal
 	 *
@@ -136,19 +137,54 @@ public class NotifySelectedGroups extends Activity {
 		return true;
 	}
 	
-	
-	public Intent getTextIntent(View v){
+	/**
+	 * Returns all the Text Phone as a String numbers separated by ';'
+	 * (except last one)
+	 * @return
+	 */
+	public String getTextRecipients () {
+		if (groupPhoneNumbers.isEmpty())
+			return "";
+		
 		String smsRecipients = "";
-		
+
 		for (String no : groupPhoneNumbers) {
-			if (no.startsWith("+1")) {
+			if (no.startsWith("+1")) 
 				smsRecipients += (no.substring(1, no.length()) + ";");
-			}
+			else 
+				smsRecipients += (no + ";");
 		}
+		smsRecipients = smsRecipients.substring(0, smsRecipients.length() - 1);
+		return smsRecipients;
+	}
+	
+	/**
+	 * Returns all the Email recipients  of the group as a String separated by ';' 
+	 * Except last one
+	 * @return
+	 */
+	public String getEmailRecipients() {
 		
-		// smsRecipients = "12154211284;12155885982";
+		if (groupEmails.isEmpty())
+			return "";
 		
-		 //Uri sendSmsTo = Uri.parse("smsto:" + smsRecipients);
+		String emailRecipients = "";
+		for (String id : groupEmails) {
+			emailRecipients += (id + ";");
+		}
+		emailRecipients = emailRecipients.substring(0, emailRecipients.length() - 1);
+		return emailRecipients;
+	}
+	
+	
+	/**
+	 * Returns the Text Intent with the required payload set
+	 * @param v
+	 * @return
+	 */
+	public Intent getTextIntent(View v){
+		String smsRecipients = getTextRecipients();
+				
 		System.out.println("SMS RECIPIENTS: " + smsRecipients);
 
 		Intent sendIntent = new Intent(Intent.ACTION_VIEW);
@@ -167,14 +203,15 @@ public class NotifySelectedGroups extends Activity {
 		return sendIntent;
 	}
 
+	/**
+	 * Returns the Email intent as an instance with the reqd payload set
+	 * @return
+	 */
 	public Intent getEmailIntent(){
 		// http://stackoverflow.com/questions/2197741/how-to-send-email-from-my-android-application
-		String emailRecipients = "";
-		for (String id : groupEmails) {
-			emailRecipients += (id + ";");
-		}
-		emailRecipients.substring(0, emailRecipients.length() - 1);
 		
+		String emailRecipients = getEmailRecipients();
+			
 		System.out.println("EMAIL RECIPIENTS: " + emailRecipients);
 		Intent i = new Intent(Intent.ACTION_SEND);
 		i.setType("message/rfc822");
@@ -186,26 +223,23 @@ public class NotifySelectedGroups extends Activity {
 	}
 
 	/**
-	 * On Notify Button click!
+	 * On 'Notify' Button click!
 	 * @param view
 	 */
 	public void onNotifyButtonClick (View view) {
-		
-		
-		if (textEmail.equals("Email"))
-			startActivity(Intent.createChooser(getEmailIntent(), "Send mail..."));
-		
-		else if (textEmail.equals("Text")){
+			
+		if (textEmail.equals("Email")) {
+			startActivity(Intent.createChooser(getEmailIntent(), "Send mail..."));	
+		}
+		else if (textEmail.equals("Text")) {
 			final Intent sendIntent = getTextIntent(view);
 			startActivity(sendIntent);
-		}
-		
+		}		
 		else if (textEmail.equals("Both")) {
 			final Intent sendIntent = getTextIntent(view);
 			startActivity(sendIntent);
 			startActivity(Intent.createChooser(getEmailIntent(), "Send mail..."));
-		}
-			
+		}			
 	}
 	
 	
