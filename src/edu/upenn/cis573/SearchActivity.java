@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -73,7 +74,7 @@ public class SearchActivity extends Activity {
 	private Button mFavoritesButton;
 	private Button mSearchButton;
 	private Button mAddGroupButton;
-	
+
 	Boolean isInternetPresent = false;
 
 	// Connection detector class
@@ -100,7 +101,7 @@ public class SearchActivity extends Activity {
 
 		if(location == null){
 			System.out.println("CURRENT LOCATION NOT AVAILABLE");
-			
+
 			location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 			if(location != null){
 				System.out.println("Finally it works");
@@ -129,7 +130,7 @@ public class SearchActivity extends Activity {
 	public static void setLongitude(double lon){
 		longitude = lon;
 	}
-	
+
 	/**
 	 * Set latitude method, this is used for build in test
 	 * @param lat
@@ -137,14 +138,14 @@ public class SearchActivity extends Activity {
 	public static void setLatitude(double lat){
 		latitude = lat;
 	}
-	
-	
+
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search);
 		Log.e("TAG", "In SearchActivity");
-		
+
 		System.out.println("SEARCH ACTIVITY CREATED");
 
 		//get the location Manager in order to get the current location
@@ -192,14 +193,14 @@ public class SearchActivity extends Activity {
 		});
 
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
-	
+
 	/**
 	 * Calls the method to pop up a time/date dialog box.
 	 * Called when the user clicks the 'Edit' button next to 
@@ -238,14 +239,14 @@ public class SearchActivity extends Activity {
 		editor.putBoolean("private", mSearchOptions.getPrivate());
 		editor.putBoolean("computer", mSearchOptions.getComputer());
 		editor.putBoolean("projector", mSearchOptions.getProjector());
-		
-		
+
+
 		editor.putBoolean("engineering", search.getBoolean("engineering", false));
 		editor.putBoolean("library", search.getBoolean("library", false));
 		editor.putBoolean("wharton", search.getBoolean("wharton", false));
 		editor.putBoolean("others", search.getBoolean("others", false));
 		editor.putBoolean("all", search.getBoolean("all", false));
-		
+
 		editor.putInt("numberOfPeople", mSearchOptions.getNumberOfPeople());
 		editor.putBoolean("whiteboard", mSearchOptions.getWhiteboard());
 		//added
@@ -271,21 +272,21 @@ public class SearchActivity extends Activity {
 	}
 
 	private void setUpCheckBoxes() {
-		
+
 		System.out.println("mEngi: " + search.getBoolean("engineering", false));
 		System.out.println("WHART: " + search.getBoolean("wharton", false));
 		System.out.println("LIB: " + search.getBoolean("library", false));
 		System.out.println("OTH: " + search.getBoolean("others", false));
 		System.out.println("ALLLL: " + search.getBoolean("all", false));
-		
-		
+
+
 		mEngiBox.setChecked(search.getBoolean("engineering", false));
 		mWharBox.setChecked(search.getBoolean("wharton", false));
 		mLibBox.setChecked(search.getBoolean("library", false));
 		mOthBox.setChecked(search.getBoolean("others", false));
 		//Code addition by lasya
 		mAll.setChecked(search.getBoolean("all", false));
-		
+
 		//End of code addition by lasya
 	}
 
@@ -471,7 +472,7 @@ public class SearchActivity extends Activity {
 			updateDateDisplay(view, year, monthOfYear, dayOfMonth);
 		}
 	};
-	
+
 	/**
 	 * Listener when the user presses the OK button on Start Time Dialog Box
 	 * Cancels the Dialog box
@@ -517,7 +518,7 @@ public class SearchActivity extends Activity {
 	private void dialogStartTime(int currentHour, int currentMinute) {
 		if (mCurrentDialog != null) 
 			mCurrentDialog.cancel();
-		
+
 		mCurrentDialog = new Dialog(this);
 		mCurrentDialog.setContentView(R.layout.starttimepicker);
 		mCurrentDialog.setCancelable(true);
@@ -591,11 +592,11 @@ public class SearchActivity extends Activity {
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
 			return true;
-			
+
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-	
+
 	/**
 	 * Searches for the nearest place on clicking 'Find Now' Button
 	 * @param view
@@ -605,11 +606,11 @@ public class SearchActivity extends Activity {
 		this.onSearchButtonClick(view);
 		System.out.println("onFindNowButton is clicked!");
 	}
-	
+
 	public static boolean isFNButtonClicked(){
 		return isFNBClicked;
 	}
-	
+
 	public static void setFNButtonClicked(boolean isClicked){
 		isFNBClicked = isClicked;
 	}
@@ -657,13 +658,13 @@ public class SearchActivity extends Activity {
 		isInternetPresent = cd.isConnectingToInternet();
 		if (isInternetPresent){
 			putDataInSearchOptionsObject();
-			
+
 			//Returns to List activity
 			Intent i = new Intent();
 			//Put your searchOption class here
 			mSearchOptions.setFavSelected(true);
 			i.putExtra("SEARCH_OPTIONS", (Serializable)mSearchOptions);
-			
+
 			//on search trigger test
 			//this.showCurrentLocation();
 			setResult(RESULT_OK, i);
@@ -686,7 +687,7 @@ public class SearchActivity extends Activity {
 		Intent intent = new Intent(this, Help.class);
 		startActivity(intent);
 	}
-	
+
 	/**
 	 * Sets the fields in SearchOptions instance
 	 * according to the options selected by the user
@@ -701,19 +702,19 @@ public class SearchActivity extends Activity {
 
 		mSearchOptions.setAll(mAll.isChecked());
 		mSearchOptions.setFavSelected(false);
-		
+
 		/* If 'All' check box is checked along with others, 
 		 * then the other checkboxes have true value
 		 * But when the activity is refreshed, only 'ALL' will be checked */
-		
+
 		if(mAll.isChecked()) {
 			mSearchOptions.setEngi(true);
 			mSearchOptions.setWhar(true);
 			mSearchOptions.setLib(true);
 			mSearchOptions.setOth(true);
-			
+
 			SharedPreferences.Editor editor = search.edit();
-			
+
 			editor.putBoolean("engineering", false);
 			editor.putBoolean("library", false);
 			editor.putBoolean("wharton", false);
@@ -722,12 +723,12 @@ public class SearchActivity extends Activity {
 			editor.commit();
 
 		}
-		
+
 		/*
 		 * If nothing is checked, the query runs for 'ALL' results. When the page is 
 		 * revisited, 'ALL' is selected and nothing else
 		 */
-		
+
 		else if(!mEngiBox.isChecked()&&
 				!mWharBox.isChecked() &&
 				!mLibBox.isChecked()&&
@@ -737,9 +738,9 @@ public class SearchActivity extends Activity {
 			mSearchOptions.setWhar(true);
 			mSearchOptions.setLib(true);
 			mSearchOptions.setOth(true);
-			
+
 			SharedPreferences.Editor editor = search.edit();
-			
+
 			editor.putBoolean("engineering", false);
 			editor.putBoolean("library", false);
 			editor.putBoolean("wharton", false);
@@ -747,7 +748,7 @@ public class SearchActivity extends Activity {
 			editor.putBoolean("all", true);
 			editor.commit();
 		}
-		
+
 		/*
 		 * This is the case when 'ALL' is not checked and other checkboxes might be 
 		 * checked (atleast one). In this case, the query runs for the clicked 
@@ -759,9 +760,9 @@ public class SearchActivity extends Activity {
 			mSearchOptions.setWhar(mWharBox.isChecked());
 			mSearchOptions.setLib(mLibBox.isChecked());
 			mSearchOptions.setOth(mOthBox.isChecked());
-			
+
 			SharedPreferences.Editor editor = search.edit();
-			
+
 			editor.putBoolean("engineering", mEngiBox.isChecked());
 			editor.putBoolean("library", mLibBox.isChecked());
 			editor.putBoolean("wharton", mWharBox.isChecked());
@@ -769,8 +770,8 @@ public class SearchActivity extends Activity {
 			editor.putBoolean("all", false);
 			editor.commit();
 		}
-		
-		
+
+
 	}
 
 	private void resetTimeAndDateData() {
@@ -794,7 +795,7 @@ public class SearchActivity extends Activity {
 		updateEndTimeText();
 		updateDateText();	
 	}
-	
+
 	private void captureViewElements() {
 
 		// General:
@@ -825,7 +826,7 @@ public class SearchActivity extends Activity {
 		//End of code addition by Lasya
 	}
 
-	
+
 	/**
 	 * Listener for 'Create Group' Button click
 	 * Action to perform group button click
@@ -836,7 +837,7 @@ public class SearchActivity extends Activity {
 		Intent intent = new Intent(this, CreateGroup.class);
 		startActivity(intent);
 	}
-	
+
 	/**
 	 * Listener for 'View Group' Button click
 	 * Action to perform group button click
@@ -848,4 +849,13 @@ public class SearchActivity extends Activity {
 		startActivity(intent);
 	}
 
+	/**
+	 * Action to be performed on clicking when-to-meet button
+	 * @param view
+	 */
+	public void onWhenToMeetButtonClick(View view) {
+		Uri uriUrl = Uri.parse("http://when2meet.com/");  
+		Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl); 
+		startActivity(launchBrowser);
+	}
 }

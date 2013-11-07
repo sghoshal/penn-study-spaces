@@ -229,7 +229,7 @@ public class TabDetails extends Fragment {
 		}
 		return sendIntent;
 	}
-	
+
 	public Intent getEmailIntent(){
 		// http://stackoverflow.com/questions/2197741/how-to-send-email-from-my-android-application
 		Intent i = new Intent(Intent.ACTION_SEND);
@@ -267,6 +267,7 @@ public class TabDetails extends Fragment {
 		//final Intent sendIntent = getTextIntent(v);
 
 		CheckBox text = (CheckBox) getView().findViewById(R.id.resTextCheckBox);
+		
 		if(text!=null && text.isChecked()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle("Pick a sharing option:");

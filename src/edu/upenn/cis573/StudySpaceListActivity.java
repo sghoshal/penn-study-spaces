@@ -34,6 +34,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class StudySpaceListActivity extends ListActivity {
@@ -135,21 +136,33 @@ public class StudySpaceListActivity extends ListActivity {
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
+		
 		switch (requestCode) {
 		case ACTIVITY_SearchActivity:
-			searchOptions = (SearchOptions) intent
-					.getParcelableExtra("SEARCH_OPTIONS");
-			ImageView image = (ImageView) this
-					.findViewById(R.id.favorite_button);
-			image.setImageResource(R.color.yellow);
-			favSelected = searchOptions.getFavSelected();
-			System.out.println("SEARCH ACTIVITY " + favSelected);
-			if (favSelected) {
-				ss_adapter.allToFav();
-			} else {
-				ss_adapter.filterSpaces();
+			if (ss_list.isEmpty()) {
+				Context context = getApplicationContext();
+				CharSequence text = "No rooms avaliable!";
+				int duration = Toast.LENGTH_LONG;
+
+				Toast toast = Toast.makeText(context, text, duration);
+				toast.show();
+
 			}
-			ss_adapter.updateFavorites(preferences);
+			else {
+				searchOptions = (SearchOptions) intent
+						.getParcelableExtra("SEARCH_OPTIONS");
+				ImageView image = (ImageView) this
+						.findViewById(R.id.favorite_button);
+				image.setImageResource(R.color.yellow);
+				favSelected = searchOptions.getFavSelected();
+				System.out.println("SEARCH ACTIVITY " + favSelected);
+				if (favSelected) {
+					ss_adapter.allToFav();
+				} else {
+					ss_adapter.filterSpaces();
+				}
+				ss_adapter.updateFavorites(preferences);
+			}
 			break;
 		case ACTIVITY_ViewSpaceDetails:
 			preferences = (Preferences) intent
