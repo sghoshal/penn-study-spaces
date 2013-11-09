@@ -192,7 +192,7 @@ public final class R {
         public static final int help=0x7f030007;
         public static final int mapview=0x7f030008;
         public static final int notify_select_groups=0x7f030009;
-        public static final int search=0x7f03000a;
+        public static final int search_options=0x7f03000a;
         public static final int splash=0x7f03000b;
         public static final int ssdetails=0x7f03000c;
         public static final int sslist=0x7f03000d;

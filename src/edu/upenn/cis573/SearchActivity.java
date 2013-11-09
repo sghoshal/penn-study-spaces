@@ -143,7 +143,7 @@ public class SearchActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.search);
+		setContentView(R.layout.search_options);
 		Log.e("TAG", "In SearchActivity");
 
 		System.out.println("SEARCH ACTIVITY CREATED");
