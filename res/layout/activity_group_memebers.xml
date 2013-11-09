@@ -3,12 +3,14 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="9dp"
+    android:background="@drawable/blue"
     android:padding="5dp" >
 
     <ListView
         android:id="@+id/listviewMembers"
         android:layout_width="match_parent"
         android:layout_height="393dp"
+        android:textColor="@color/lightgrey"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" >
     </ListView>
@@ -19,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/lightgrey"
         android:onClick="onAddMemberClick"
         android:text="@string/add_member" />
 
