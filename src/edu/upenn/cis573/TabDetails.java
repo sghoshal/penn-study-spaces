@@ -210,6 +210,9 @@ public class TabDetails extends Fragment {
 		begin = cal.getTime();
 		intent.putExtra("beginTime", cal.getTimeInMillis());
 		intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
+		intent.putExtra("hasAlarm", true);
+		intent.putExtra("allowedReminders","METHOD_DEFAULT,METHOD_EMAIL");
+		intent.putExtra("minutes",60);
 		return intent;
 	}
 

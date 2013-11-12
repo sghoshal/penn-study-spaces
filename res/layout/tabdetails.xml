@@ -174,7 +174,7 @@
                     android:id="@+id/calCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_calendar"
+                    android:text="@string/calendar_and_reminder"
                     android:textColor="@color/black" />
 
                 <CheckBox
