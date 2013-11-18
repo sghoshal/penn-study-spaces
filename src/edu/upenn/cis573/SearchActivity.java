@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -31,50 +33,62 @@ import android.location.LocationManager;
 
 public class SearchActivity extends Activity {
 
-	private TextView mNumberOfPeopleTextView;
+	private static boolean isFNBClicked = false;
+	private static final int START_TIME_DIALOG_ID = 0;
+	private static final int END_TIME_DIALOG_ID = 1;
+	private static final int DATE_DIALOG_ID = 2;
+	private static final String SEARCH_PREFERENCES = "searchPreferences";
+
+	public static double latitude = 0;
+	public static double longitude = 0;
+	
+	private Dialog mCurrentDialog;
+	private SearchOptions mSearchOptions;
+	private SharedPreferences search;
+	private String provider;
+	
 	private SeekBar mNumberOfPeopleSlider;
+	
+	private TextView mNumberOfPeopleTextView;
+	private TextView roomForTextView;
+	private TextView meetingDateTextView;
+	private TextView mDateDisplay;
+	private TextView meetingTimeTextView;
+	private TextView startTimeTextView;
+	private TextView mStartTimeDisplay;
+	private TextView endTimeTextView;
+	private TextView mEndTimeDisplay;
+	private TextView engiTextView;
+	private TextView whartonTextView;
+	private TextView libTextView;
+	private TextView otherTextView;
+	private TextView allTextView;
+	
 	private CheckBox mPrivateCheckBox;
 	private CheckBox mWhiteboardCheckBox;
 	private CheckBox mComputerCheckBox;
 	private CheckBox mProjectorCheckBox;
 	private CheckBox mReservableCheckBox;
-
 	private CheckBox mEngiBox;
 	private CheckBox mWharBox;
 	private CheckBox mLibBox;
 	private CheckBox mOthBox;
-
-	private TextView mStartTimeDisplay;
-	private Button mPickStartTime;
-	private TextView mEndTimeDisplay;
-	private Button mPickEndTime;
-	private TextView mDateDisplay;
-	private Button mPickDate;
-	//Code added by Lasya
 	private CheckBox mAll;
-	//End of code added by Lasya
-	private static boolean isFNBClicked = false;
 
-	static final int START_TIME_DIALOG_ID = 0;
-	static final int END_TIME_DIALOG_ID = 1;
-	static final int DATE_DIALOG_ID = 2;
+	private Button mPickStartTime;
+	private Button mPickEndTime;
+	private Button mPickDate;
+	private Button mFavoritesButton;
+	private Button mAddGroupButton;
+	private Button mViewGroupButton;
+	private Button searchButton;
+	private Button findNowButton;
+	private Button whenToMeetButton;
 
-	private Dialog mCurrentDialog;
-
-	private SearchOptions mSearchOptions;
-
-	private SharedPreferences search;
-	static final String SEARCH_PREFERENCES = "searchPreferences";
-
+	
 	//revise the program
 	protected LocationManager locationManager;
-	private String provider;
-	public static double latitude = 0;
-	public static double longitude = 0;
-	private Button mFavoritesButton;
-	private Button mSearchButton;
-	private Button mAddGroupButton;
-
+	
 	Boolean isInternetPresent = false;
 
 	// Connection detector class
@@ -138,15 +152,52 @@ public class SearchActivity extends Activity {
 	public static void setLatitude(double lat){
 		latitude = lat;
 	}
-
+	
+	/**
+	 * 
+	 * @param font
+	 */
+	public void setFontForTexts () {
+		
+		Typeface robotoCondensedRegular = Typeface.createFromAsset(getAssets(), 
+				"fonts/RobotoCondensed-Regular.ttf");
+		Typeface robotoRegular = Typeface.createFromAsset(getAssets(), 
+				"fonts/Roboto-Regular.ttf");
+		
+		roomForTextView.setTypeface(robotoCondensedRegular);
+		meetingDateTextView.setTypeface(robotoCondensedRegular);
+		meetingTimeTextView.setTypeface(robotoCondensedRegular);
+		startTimeTextView.setTypeface(robotoCondensedRegular);
+		endTimeTextView.setTypeface(robotoCondensedRegular);
+		engiTextView.setTypeface(robotoCondensedRegular);
+		whartonTextView.setTypeface(robotoCondensedRegular);
+		libTextView.setTypeface(robotoCondensedRegular);
+		otherTextView.setTypeface(robotoCondensedRegular);
+		allTextView.setTypeface(robotoCondensedRegular);
+		searchButton.setTypeface(robotoCondensedRegular);
+		findNowButton.setTypeface(robotoCondensedRegular);
+		whenToMeetButton.setTypeface(robotoCondensedRegular);
+		mPrivateCheckBox.setTypeface(robotoCondensedRegular);
+		mWhiteboardCheckBox.setTypeface(robotoCondensedRegular);
+		mComputerCheckBox.setTypeface(robotoCondensedRegular);
+		mProjectorCheckBox.setTypeface(robotoCondensedRegular);
+		mReservableCheckBox.setTypeface(robotoCondensedRegular);
+		mViewGroupButton.setTypeface(robotoCondensedRegular);
+		
+		mNumberOfPeopleTextView.setTypeface(robotoRegular);
+		mDateDisplay.setTypeface(robotoRegular);
+		mStartTimeDisplay.setTypeface(robotoRegular);
+		mEndTimeDisplay.setTypeface(robotoRegular);
+		mPickDate.setTypeface(robotoCondensedRegular);
+		mPickStartTime.setTypeface(robotoCondensedRegular);
+		mPickEndTime.setTypeface(robotoCondensedRegular);
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_options);
 		Log.e("TAG", "In SearchActivity");
-
-		System.out.println("SEARCH ACTIVITY CREATED");
 
 		//get the location Manager in order to get the current location
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -155,6 +206,8 @@ public class SearchActivity extends Activity {
 		getSharedPreferences(StudySpaceListActivity.FAV_PREFERENCES, 0);
 
 		captureViewElements();
+		setFontForTexts();
+
 		mSearchOptions = new SearchOptions();
 
 		setUpNumberOfPeopleSlider(); // Here???
@@ -797,33 +850,46 @@ public class SearchActivity extends Activity {
 	}
 
 	private void captureViewElements() {
-
-		// General:
-		mSearchButton = (Button)findViewById(R.id.searchButton);
-		mFavoritesButton = (Button)findViewById(R.id.favoritesButton);
-		mNumberOfPeopleTextView = (TextView)findViewById(R.id.numberOfPeopleTextView);
+		
 		mNumberOfPeopleSlider = (SeekBar)findViewById(R.id.numberOfPeopleSlider);
-		mPrivateCheckBox = (CheckBox)findViewById(R.id.privateCheckBox);
-		mWhiteboardCheckBox = (CheckBox)findViewById(R.id.whiteboardCheckBox);
-		mComputerCheckBox = (CheckBox)findViewById(R.id.computerCheckBox);
-		mProjectorCheckBox = (CheckBox)findViewById(R.id.projectorCheckBox);
-		mReservableCheckBox = (CheckBox)findViewById(R.id.reservableCheckBox);
-
+		
+		mViewGroupButton = (Button) findViewById(R.id.viewGroupButton);
+		mAddGroupButton = (Button) findViewById(R.id.addGrpButton);
+		mFavoritesButton = (Button) findViewById(R.id.favoritesButton);
+		mPickStartTime = (Button) findViewById(R.id.pickStartTime);
+		mPickEndTime = (Button) findViewById(R.id.pickEndTime);
+		mPickDate = (Button) findViewById(R.id.pickDate);
+		searchButton = (Button) findViewById(R.id.searchButton);
+		findNowButton = (Button) findViewById(R.id.findNowButton);
+		whenToMeetButton = (Button) findViewById(R.id.whenToMeetButton);
+		
+		mPrivateCheckBox = (CheckBox) findViewById(R.id.privateCheckBox);
+		mWhiteboardCheckBox = (CheckBox) findViewById(R.id.whiteboardCheckBox);
+		mComputerCheckBox = (CheckBox) findViewById(R.id.computerCheckBox);
+		mProjectorCheckBox = (CheckBox) findViewById(R.id.projectorCheckBox);
+		mReservableCheckBox = (CheckBox) findViewById(R.id.reservableCheckBox);
+		
 		mEngiBox = (CheckBox) findViewById(R.id.engibox);
 		mWharBox =(CheckBox) findViewById(R.id.whartonbox);
 		mLibBox = (CheckBox) findViewById(R.id.libbox);
 		mOthBox = (CheckBox) findViewById(R.id.otherbox);
-
-		// Time and date:
-		mStartTimeDisplay = (TextView) findViewById(R.id.startTimeDisplay);
-		mPickStartTime = (Button) findViewById(R.id.pickStartTime);
-		mEndTimeDisplay = (TextView) findViewById(R.id.endTimeDisplay);
-		mPickEndTime = (Button) findViewById(R.id.pickEndTime);
-		mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
-		mPickDate = (Button) findViewById(R.id.pickDate);
-		//Code added by Lasya
 		mAll = (CheckBox) findViewById(R.id.all);
-		//End of code addition by Lasya
+
+		roomForTextView = (TextView) findViewById(R.id.roomForText);
+		meetingDateTextView = (TextView) findViewById(R.id.meetingDateText);
+		meetingTimeTextView = (TextView) findViewById(R.id.meetingTimeText);
+		startTimeTextView = (TextView) findViewById(R.id.startTimeText);
+		endTimeTextView = (TextView) findViewById(R.id.endTimeText);
+		engiTextView = (TextView) findViewById(R.id.engiText);
+		whartonTextView = (TextView) findViewById(R.id.whartonText);
+		libTextView = (TextView) findViewById(R.id.libText);
+		otherTextView = (TextView) findViewById(R.id.otherText);
+		allTextView = (TextView) findViewById(R.id.allText);
+		
+		mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
+		mStartTimeDisplay = (TextView) findViewById(R.id.startTimeDisplay);
+		mEndTimeDisplay = (TextView) findViewById(R.id.endTimeDisplay);
+		mNumberOfPeopleTextView = (TextView) findViewById(R.id.numberOfPeopleTextView);
 	}
 
 

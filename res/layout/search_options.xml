@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="@drawable/blue" >
 
     <LinearLayout
+        style="?android:attr/buttonBarButtonStyle"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/white"
         android:orientation="vertical"
-        android:padding="5dip" >
+        
+        android:padding="1dip" >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal" 
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip" >
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -25,6 +29,7 @@
 
             <Button
                 android:id="@+id/viewGroupButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -37,7 +42,8 @@
                 android:layout_weight="1" />
 
             <Button
-                android:id="@+id/addGroupButton"
+                android:id="@+id/addGrpButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="58dp"
                 android:layout_height="52dp"
                 android:layout_margin="5dp"
@@ -46,23 +52,30 @@
 
             <Button
                 android:id="@+id/favoritesButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:background="@drawable/favoritesbutton"
                 android:onClick="onFavsButtonClick" />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/roomForText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:gravity="left"
-            android:paddingBottom="5dp"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
             android:text="Room for (no of people):"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/brown"
-            android:textSize="25dp" />
+            android:textSize="22dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
+            android:background="?android:attr/listDivider" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -73,81 +86,101 @@
                 android:id="@+id/numberOfPeopleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="4dip"
+            	android:layout_marginRight="4dip"
+            	android:layout_marginTop="8dip"
                 android:layout_weight="1"
-                android:text=""
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
+                android:text="" />
 
             <SeekBar
                 android:id="@+id/numberOfPeopleSlider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
                 android:layout_weight="2"
                 android:max="19"
                 android:progress="1" />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/meetingDateText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:gravity="left"
-            android:paddingBottom="5dp"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
             android:text="Meeting date:"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/brown"
-            android:textSize="25dp" />
-
+            android:textSize="22dp" />
+        
+      <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
+            android:background="?android:attr/listDivider" />
+      
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
             android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/dateDisplay"
-                android:layout_width="wrap_content"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center"
+                android:layout_marginLeft="4dip"
+            	android:layout_marginRight="2dip"
                 android:layout_weight="3"
-                android:text=""
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
+                android:text="" />
 
             <Button
                 android:id="@+id/pickDate"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/fbutton"
+                android:layout_marginLeft="4dip"
+            	android:layout_marginRight="4dip"
                 android:text="@string/Edit" />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/meetingTimeText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:paddingBottom="5dp"
+            android:paddingBottom="1dp"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
             android:text="Meeting time:"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/brown"
-            android:textSize="25dp" />
+            android:textSize="22dp" />
+        
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
+            android:background="?android:attr/listDivider" />
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="34dp"
             android:orientation="horizontal" >
 
             <TextView
+                android:id="@+id/startTimeText"
                 android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Start:"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black"
+                android:layout_marginLeft="4dip"
+            	android:layout_marginRight="4dip"
+                android:text="Start: "
                 android:textSize="20dp" />
 
             <TextView
@@ -156,34 +189,31 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="2"
-                android:text=""
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
+                android:text="" />
 
             <Button
                 android:id="@+id/pickStartTime"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/fbutton"
+            	android:layout_marginRight="4dip"
                 android:text="@string/Edit" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="34dp"
             android:orientation="horizontal" >
 
             <TextView
+                android:id="@+id/endTimeText"
                 android:layout_width="75dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_weight="1"
+                android:layout_weight="0.99"
                 android:gravity="left"
-                android:text="End :"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black"
+                android:layout_marginLeft="4dip"
+            	android:layout_marginRight="4dip"
+                android:text="End: "
                 android:textSize="20dp" />
 
             <TextView
@@ -192,16 +222,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="2"
-                android:text=""
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
+                android:text="" />
 
             <Button
                 android:id="@+id/pickEndTime"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/fbutton"
+            	android:layout_marginRight="4dip"
                 android:text="@string/Edit" />
         </LinearLayout>
 
@@ -220,36 +248,31 @@
                     android:id="@+id/privateCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/private_check_box"
-                    android:textColor="@color/black" />
+                    android:text="@string/private_check_box" />
 
                 <CheckBox
                     android:id="@+id/whiteboardCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/whiteboard_check_box"
-                    android:textColor="@color/black" />
+                    android:text="@string/whiteboard_check_box" />
 
                 <CheckBox
                     android:id="@+id/computerCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/computer_check_box"
-                    android:textColor="@color/black" />
+                    android:text="@string/computer_check_box" />
 
                 <CheckBox
                     android:id="@+id/projectorCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/projector_check_box"
-                    android:textColor="@color/black" />
+                    android:text="@string/projector_check_box" />
 
                 <CheckBox
                     android:id="@+id/reservableCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/reservable_check_box"
-                    android:textColor="@color/black" />
+                    android:text="@string/reservable_check_box" />
             </LinearLayout>
 
             <LinearLayout
@@ -266,23 +289,22 @@
                     <CheckBox
                         android:id="@+id/engibox"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:typeface="serif" />
+                        android:layout_height="wrap_content" />
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_marginRight="6dip"
                         android:layout_marginTop="10dp"
                         android:antialias="true"
                         android:src="@drawable/engiicon" />
 
                     <TextView
+                        android:id="@+id/engiText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="ngineering"
-                        android:textColor="@color/black"
                         android:textSize="18dp" />
                 </LinearLayout>
 
@@ -294,23 +316,22 @@
                     <CheckBox
                         android:id="@+id/whartonbox"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:typeface="serif" />
+                        android:layout_height="wrap_content" />
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_marginRight="6dip"
                         android:layout_marginTop="10dp"
                         android:antialias="true"
                         android:src="@drawable/whartonicon" />
 
                     <TextView
+                        android:id="@+id/whartonText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="harton"
-                        android:textColor="@color/black"
                         android:textSize="18dp" />
                 </LinearLayout>
 
@@ -322,23 +343,22 @@
                     <CheckBox
                         android:id="@+id/libbox"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:typeface="serif" />
+                        android:layout_height="wrap_content" />
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_marginRight="6dip"
                         android:layout_marginTop="10dp"
                         android:antialias="true"
                         android:src="@drawable/libicon" />
 
                     <TextView
+                        android:id="@+id/libText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="ibrary"
-                        android:textColor="@color/black"
                         android:textSize="18dp" />
                 </LinearLayout>
 
@@ -350,24 +370,22 @@
                     <CheckBox
                         android:id="@+id/otherbox"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:typeface="serif" />
+                        android:layout_height="wrap_content" />
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_marginRight="6dip"
                         android:layout_marginTop="10dp"
                         android:antialias="true"
                         android:src="@drawable/othericon" />
 
                     <TextView
+                        android:id="@+id/otherText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="thers"
-                        android:textColor="@color/black"
                         android:textSize="18dp" />
                 </LinearLayout>
 
@@ -380,24 +398,23 @@
                         android:id="@+id/all"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:typeface="serif" />
+                        android:checked="false" />
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_marginRight="6dip"
                         android:layout_marginTop="10dp"
                         android:antialias="true"
                         android:src="@drawable/allicon" />
 
                     <TextView
+                        android:id="@+id/allText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:onClick="allCheck"
                         android:text="ll"
-                        android:textColor="@color/black"
                         android:textSize="18dp" />
                 </LinearLayout>
             </LinearLayout>
@@ -412,31 +429,38 @@
 
             <Button
                 android:id="@+id/searchButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="71dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="1dp"
                 android:layout_weight="0.08"
-                android:background="@drawable/s2"
-                android:onClick="onSearchButtonClick" />
+                android:background="#00445C"
+                android:onClick="onSearchButtonClick"
+                android:text="Search" />
 
             <Button
                 android:id="@+id/findNowButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="82dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/findnow"
-                android:onClick="onFindNowButtonClick" />
+                android:layout_margin="1dp"
+                android:background="#00445C"
+                android:onClick="onFindNowButtonClick"
+                android:text="Find Now!" />
 
             <Button
-                android:id="@+id/whentomeet"
+                android:id="@+id/whenToMeetButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="30dp"
-                android:layout_height="47dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.26"
-                android:background="@drawable/when2meet"
-                android:onClick="onWhenToMeetButtonClick" />
+                android:background="#00445C"
+                android:onClick="onWhenToMeetButtonClick"
+                android:text="Meet!" />
 
             <Button
                 android:id="@+id/helpButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="33dp"
                 android:layout_height="25dp"
                 android:background="@drawable/iconhelp"
