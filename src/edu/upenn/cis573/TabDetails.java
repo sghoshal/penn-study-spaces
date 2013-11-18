@@ -208,8 +208,11 @@ public class TabDetails extends Fragment {
 		intent.putExtra("description", "Supported by PennStudySpaces");
 		intent.putExtra("eventLocation", o.getBuildingName()+" - "+o.getRooms()[0].getRoomName());
 		begin = cal.getTime();
-		intent.putExtra("beginTime", cal.getTimeInMillis());
-		intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
+		intent.putExtra("beginTime", StudySpaceListActivity.searchOptions.getStartDate().getTime());
+		intent.putExtra("endTime", StudySpaceListActivity.searchOptions.getEndDate().getTime());
+		intent.putExtra("hasAlarm", true);
+		intent.putExtra("allowedReminders","METHOD_DEFAULT,METHOD_EMAIL");
+		intent.putExtra("minutes",60);
 		return intent;
 	}
 

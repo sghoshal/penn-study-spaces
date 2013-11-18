@@ -47,7 +47,7 @@ public class StudySpaceListActivity extends ListActivity {
 	public static final int ACTIVITY_ViewSpaceDetails = 1;
 	public static final int ACTIVITY_SearchActivity = 2;
 	public static final int ACTIVITY_ViewRooms = 3;
-	private SearchOptions searchOptions; // create a default searchoption later
+	public static SearchOptions searchOptions; // create a default searchoption later
 	private boolean favSelected;
 	private Preferences preferences;
 

@@ -21,6 +21,12 @@
             android:textColor="@color/black"
             android:textSize="24sp" />
 
+        <Button
+            android:id="@+id/voiceHelpButton"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            android:text="Voice Help" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,17 +42,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:text="The filter page allows you to filter study spaces based on your requirements.
-
-You can select from a variety of utilities and also filter across Penn&apos;s schools.
-
-The star in the top right corner will let you go directly to your favorite places. The Find Now button will bring you to the closest study space matching your selection criteria.
-
-You also have the opportunity to specify the minimum number of people in your group, and only view the reservable rooms.
-
-For more details, just click the ? at the bottom left corner, and it will bring you to the help screen!
-
-Enjoy!"
+            android:text="@string/search_screen_help"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -72,19 +68,7 @@ Enjoy!"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:text="The main screen displays all available spaces based on the filter parameters as described above.
-
-By default, all the study spaces are ranked by their distance from your current place.
-
-The label on the left indicates whether the study space is classified as Engineering, Library, Wharton or Others.
-
-The icons on the right show whether the study space is private, has whiteboards, computers or projectors.
-
-If you click and hold on a study space in the list, a dialog appears allowing you to reserve a space directly. 
-
-There is also a favorites tab that displays any spaces you have selected as favorites.
-
-Last but not least, through the MapView, you could see all the study spaces in the list on the map."
+            android:text="@string/main_screen_help"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -122,10 +106,7 @@ Last but not least, through the MapView, you could see all the study spaces in t
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/imageView1"
                 android:layout_toRightOf="@+id/imageView1"
-                android:text="Students can reserve the study space privately.\n\n
-The study space has a whiteboard.\n\n
-The study space has a projector with a large screen.\n\n
-The study space has computers."
+                android:text="@string/icon_help"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -147,7 +128,7 @@ The study space has computers."
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:text="Each study space has its own page, with information regarding utilities and availability."
+            android:text="@string/study_space_info_help"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -158,16 +139,6 @@ The study space has computers."
             android:layout_marginTop="10dp"
             android:src="@drawable/space_detail" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:text="You also have the option of adding to calendar and notifying your friends via text messages or email for each of the spaces."
-            android:textColor="@color/black"
-            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -185,8 +156,7 @@ The study space has computers."
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:text="The map tab allows you to see the location of your selected space in relation to your current space. 
-            Tapping on an icon allows you to see the space&apos;s address."
+            android:text="@string/map_screen_help"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
