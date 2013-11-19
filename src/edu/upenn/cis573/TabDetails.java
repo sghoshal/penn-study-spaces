@@ -264,7 +264,13 @@ public class TabDetails extends Fragment {
 				o.getBuildingName() + " - " + o.getRooms()[0].getRoomName() + "\nTime: " + begin);
 		notifyGrpIntent.putExtra("emailSubject", "Penn Study Space Reservation Invitation");
 		notifyGrpIntent.putExtra("emailBody"   , "Building Name: " +
-					o.getBuildingName() + "\nRoom Name: " + o.getRooms()[0].getRoomName() + "\nStart Time: " + begin);
+					o.getBuildingName() + "\nRoom Name: " + o.getRooms()[0].getRoomName() + 
+					"\nStart Time: " + 
+					StudySpaceListActivity.searchOptions.getStartHour() + ":" + 
+					StudySpaceListActivity.searchOptions.getStartMinute() +
+					"\nEnd Time: " + StudySpaceListActivity.searchOptions.getEndHour() + ":" +
+					StudySpaceListActivity.searchOptions.getEndMinute());
+
 		
 		final Intent calIntent = getCalIntent(v);
 		//final Intent sendIntent = getTextIntent(v);

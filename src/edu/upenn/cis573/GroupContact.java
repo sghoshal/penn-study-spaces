@@ -156,9 +156,8 @@ public class GroupContact extends Activity{
 	 * Listener for Done button
 	 * @param view
 	 */
-	public void onDoneButtonClick (View view) {		
-		Intent intent = new Intent(this, SearchActivity.class);
-		startActivity(intent);
+	public void onDoneButtonClick (View view) {	
+		finish();
 	}
 
 

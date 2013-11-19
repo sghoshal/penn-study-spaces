@@ -11,11 +11,17 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemLongClickListener;
 
@@ -30,7 +36,7 @@ public class NotifySelectedGroups extends Activity {
 
 	private List<String> listOfGroups;
 	private StableArrayAdapter adapter;
-	private String groupSelected;
+	private List<String> groupsSelected;
 	private List<String> groupPhoneNumbers;
 	private List<String> groupEmails;
 
@@ -38,6 +44,12 @@ public class NotifySelectedGroups extends Activity {
 	private String emailSubject = "";
 	private String emailBody = "";
 	private String textEmail = "";
+	
+	static class GroupInfoHolder
+	{
+		TextView groupNameText;
+		CheckBox checkBox;
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +64,7 @@ public class NotifySelectedGroups extends Activity {
 		
 		this.groupPhoneNumbers = new ArrayList<String>();
 		this.groupEmails = new ArrayList<String>();
+		this.groupsSelected = new ArrayList<String>();
 		
 		System.out.println (String.format("SMSBODY: %s EMAILSUB: %s EMAILBODY: %s", 
 				smsBody, emailSubject, emailBody));
@@ -62,73 +75,74 @@ public class NotifySelectedGroups extends Activity {
 				android.R.layout.simple_list_item_1, listOfGroups);
 		
 		listViewGroups.setAdapter(adapter);
-		listViewGroups.setOnItemLongClickListener(new groupLongClickHandler());
 	}
 	
-	/**
-	 * The handler when the user long clicks a group to notify from this page
-	 * 
-	 * @author sghoshal
-	 *
-	 */
-	private class groupLongClickHandler implements OnItemLongClickListener {
+	
+	public void onNotifyButtonClick (final View view) {
+		
+		groupsSelected = new ArrayList<String>();
+		
+		for (int i = 0; i < adapter.checkedGroups.length; i++) {
+			if (adapter.checkedGroups[i])
+				groupsSelected.add(adapter.groups.get(i));
+		}
+		
+		System.out.println("GROUP SELECTED: " + groupsSelected);
+			
+		AlertDialog.Builder builder = new AlertDialog.Builder(NotifySelectedGroups.this);
+			
+		builder.setMessage(String.format("Select the group(s): '%s'?",  
+			groupsSelected))
+			.setCancelable(false)
+			.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 
-		@Override
-		public boolean onItemLongClick(AdapterView<?> parent, View v,
-				int position, long id) {
-			
-			groupSelected = (String) parent.getItemAtPosition(position);
-			System.out.println("GROUP SELECTED: " + groupSelected);
-			
-			AlertDialog.Builder builder = new AlertDialog.Builder(NotifySelectedGroups.this);
-			
-			builder.setMessage(String.format("Select the group: '%s'?",  
-				groupSelected))
-				.setCancelable(false)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						groupPhoneNumbers = GroupDB.getInstance(NotifySelectedGroups.this)
-								.getAllPhoneNumbers(groupSelected);
-						groupEmails = GroupDB.getInstance(NotifySelectedGroups.this)
-								.getAllEmails(groupSelected);
-						System.out.println("PHONE NUMBERS SELECTED" + groupPhoneNumbers);
-						System.out.println("EMAIL IDS SELECTED    " + groupEmails);
-						
-						dialog.cancel();
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					
+					for (int i = 0; i < groupsSelected.size(); i++) {
+						groupPhoneNumbers.addAll(GroupDB.getInstance(NotifySelectedGroups.this)
+								.getAllPhoneNumbers(groupsSelected.get(i)));
+						groupEmails.addAll(GroupDB.getInstance(NotifySelectedGroups.this)
+								.getAllEmails(groupsSelected.get(i)));
 					}
-				})				
-				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+					
+					System.out.println("PHONE NUMBERS SELECTED" + groupPhoneNumbers);
+					System.out.println("EMAIL IDS SELECTED    " + groupEmails);
+						
+					dialog.cancel();
+					sendEmailTextIntent(view);
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
+				}
+			})				
+			.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
 							
-						if (!groupPhoneNumbers.isEmpty())
-							groupPhoneNumbers.clear();
-						if (!groupEmails.isEmpty())
-							groupEmails.clear();
-						System.out.println("PHONE NUMBERS SELECTED" + groupPhoneNumbers);
-						System.out.println("EMAIL IDS SELECTED    " + groupEmails);
-						
-						dialog.cancel();
-					}
-				})
-				.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					if (!groupPhoneNumbers.isEmpty())
+						groupPhoneNumbers.clear();
+					if (!groupEmails.isEmpty())
+						groupEmails.clear();
+					System.out.println("PHONE NUMBERS SELECTED" + groupPhoneNumbers);
+					System.out.println("EMAIL IDS SELECTED    " + groupEmails);
+					
+					dialog.cancel();
+				}
+			})
+			.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						
-						System.out.println("PHONE NUMBERS SELECTED" + groupPhoneNumbers);
-						System.out.println("EMAIL IDS SELECTED    " + groupEmails);
-						dialog.cancel();
-					}
-				});
-			AlertDialog dialog = builder.create();
-			dialog.show();
-			return true;
-		}	
-	}
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					
+					System.out.println("PHONE NUMBERS SELECTED" + groupPhoneNumbers);
+					System.out.println("EMAIL IDS SELECTED    " + groupEmails);
+					dialog.cancel();
+				}
+			});
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}	
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -226,8 +240,8 @@ public class NotifySelectedGroups extends Activity {
 	 * On 'Notify' Button click!
 	 * @param view
 	 */
-	public void onNotifyButtonClick (View view) {
-			
+	public void sendEmailTextIntent (View view) {
+					
 		if (textEmail.equals("Email")) {
 			startActivity(Intent.createChooser(getEmailIntent(), "Send mail..."));	
 		}
@@ -249,16 +263,28 @@ public class NotifySelectedGroups extends Activity {
 	 * @author sghoshal
 	 *
 	 */
-	private class StableArrayAdapter extends ArrayAdapter<String> {
+	private class StableArrayAdapter extends ArrayAdapter<String> 
+			implements CompoundButton.OnCheckedChangeListener{
 
 		HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+		Boolean[] checkedGroups;
+		Context context;
+		List<String> groups;
 
 		public StableArrayAdapter(Context context, int textViewResourceId,
 				List<String> objects) {
 			super(context, textViewResourceId, objects);
+			this.context = context;
+			this.groups = objects;
+			checkedGroups = new Boolean[objects.size()];
+			
 			for (int i = 0; i < objects.size(); ++i) {
+				checkedGroups[i] = false;
 				mIdMap.put(objects.get(i), i);
 			}
+			
+			System.out.println("Groups queried from DB " + objects);
+			
 		}
 
 		@Override
@@ -270,6 +296,57 @@ public class NotifySelectedGroups extends Activity {
 		@Override
 		public boolean hasStableIds() {
 			return true;
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent){
+
+			View row = convertView;
+			GroupInfoHolder holder= null;
+
+			if (row == null){
+
+				LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+				row = inflater.inflate(R.layout.groupview_single_row, parent, false);
+
+				holder = new GroupInfoHolder();
+
+				holder.groupNameText = (TextView) row.findViewById(R.id.groupNameText);
+				holder.checkBox = (CheckBox) row.findViewById(R.id.checkBoxGroup);
+
+				row.setTag(holder);
+			}
+			else {
+				holder = (GroupInfoHolder) row.getTag();
+			}
+
+			String groupName  = groups.get(position);
+			holder.groupNameText.setText(groupName);
+			// holder.chkSelect.setChecked(true);
+			holder.checkBox.setTag(position);
+			holder.checkBox.setOnCheckedChangeListener(this);
+			return row;
+		}
+		
+		public boolean isChecked(int position) {
+			return checkedGroups[position];
+		}
+
+		public void setChecked(int position, boolean isChecked) {
+			checkedGroups[position] = isChecked;
+		}
+
+		public void toggle(int position) {
+			setChecked(position, !isChecked(position));
+		}
+		
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			Integer pos = (Integer) buttonView.getTag();
+						
+			checkedGroups[pos] = isChecked;
+			System.out.println(groups.get(pos) + " Check: " + checkedGroups[pos]);
 		}
 	}
 }
