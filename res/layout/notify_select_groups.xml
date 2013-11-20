@@ -13,15 +13,26 @@
         android:layout_below="@+id/notify_button" >
 
     </ListView>
-    
+
     <Button
         android:id="@+id/notify_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/notify_button"
- 		android:onClick="onNotifyButtonClick">
-    </Button>
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="17dp"
+        android:onClick="onNotifyButtonClick"
+        android:text="@string/notify_button" />
+
+    <Button
+        android:id="@+id/cancel_notify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/notify_listView"
+        android:layout_marginLeft="42dp"
+        android:layout_toRightOf="@+id/notify_button"
+        android:onClick="onCancelButtonClick"
+        android:text="@string/cancel" />
     
 </RelativeLayout>

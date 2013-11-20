@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -155,7 +156,6 @@ public class SearchActivity extends Activity {
 	
 	/**
 	 * 
-	 * @param font
 	 */
 	public void setFontForTexts () {
 		
@@ -196,6 +196,7 @@ public class SearchActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.search_options);
 		Log.e("TAG", "In SearchActivity");
 

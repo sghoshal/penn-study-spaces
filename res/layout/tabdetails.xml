@@ -5,7 +5,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/blue"
         android:minHeight="500dp"
         android:orientation="vertical" >
 
@@ -19,75 +19,76 @@
                 android:id="@+id/spacename"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/lightblue"
-                android:textSize="20sp" />
+                android:textColor="@color/Gray"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/roomtype"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/lightgrey"
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/roomnumbers"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textColor="@color/WhiteSmoke"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/maxoccupancy"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black" />
+                android:textColor="@color/WhiteSmoke" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:orientation="horizontal" >
-                    <ImageView
-                        android:id="@+id/private_icon"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:padding="5dp"/>
-                    
-                    <ImageView
-                        android:id="@+id/whiteboard_icon"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:padding="5dp" />
-                    
-                    <ImageView
-                        android:id="@+id/computer_icon"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:padding="5dp" />
-             
-                     <ImageView
-                        android:id="@+id/projector_icon"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:padding="5dp"/>
-                             
-                   </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/private_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="5dp" />
+
+                <ImageView
+                    android:id="@+id/whiteboard_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="5dp" />
+
+                <ImageView
+                    android:id="@+id/computer_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="5dp" />
+
+                <ImageView
+                    android:id="@+id/projector_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="5dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/reservetype"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black" />
+                android:textColor="@color/WhiteSmoke" />
         </LinearLayout>
-		<TextView
-		    android:id="@+id/availablenow"
-		    android:layout_width="fill_parent"
-		    android:gravity="center"
-		    android:layout_height="wrap_content"
-		    android:text="AVAILABLE NOW"
-		    android:textSize="30sp"
-		    android:textColor="@color/lightblue"
-		    />
+
+        <TextView
+            android:id="@+id/availablenow"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="AVAILABLE NOW"
+            android:textColor="#0099CC"
+            android:textSize="30sp" />
+
         <TextView
             android:id="@+id/favorite"
             android:layout_width="300dp"
@@ -100,7 +101,7 @@
             android:onClick="onFavClick"
             android:padding="10dp"
             android:text="@string/add_favorites"
-            android:textColor="@color/black"
+            android:textColor="@color/WhiteSmoke"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -111,6 +112,7 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:id="@+id/yourFavStudySpace"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -118,10 +120,11 @@
                 android:gravity="left"
                 android:padding="10dp"
                 android:text="@string/your_favorite"
-                android:textColor="@color/black"
+                android:textColor="@color/WhiteSmoke"
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/unfavoriteText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -149,9 +152,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add_text"
-                android:textColor="@color/black" />
+                android:textSize="20sp"
+                android:textColor="@color/WhiteSmoke" />
 
             <TextView
+                android:id="@+id/addCalenderText"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/addcalenderbtn"
@@ -162,38 +167,42 @@
                 android:text="@string/add_calendar"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/calCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/calendar_and_reminder"
+                android:layout_marginLeft="30dip"
+                android:textColor="@color/WhiteSmoke"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
-                    <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <CheckBox
-                    android:id="@+id/calCheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/calendar_and_reminder"
-                    android:textColor="@color/black" />
-
-                <CheckBox
-                    android:id="@+id/resTextCheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_text"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-            
         <LinearLayout
             android:id="@+id/reserve"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:paddingTop="20dp" >
+            android:layout_marginTop="10dp" >
+
+            <CheckBox
+                android:id="@+id/notifyFriendsCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_text"
+                android:textSize="20sp"
+                android:textColor="@color/WhiteSmoke" />
 
             <TextView
+                android:id="@+id/reserveOnline"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -203,10 +212,10 @@
                 android:onClick="onReserveClick"
                 android:padding="10dp"
                 android:text="@string/add_reserve"
-                android:textColor="@color/white"
+                android:textColor="@color/lightgrey"
                 android:textSize="20sp" />
-
-
         </LinearLayout>
+
     </LinearLayout>
+
 </ScrollView>

@@ -17,6 +17,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.LinearLayout;
 
 import com.google.android.maps.GeoPoint;
@@ -54,6 +55,8 @@ public class CustomMap extends MapActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
 		Intent i = super.getIntent();
 		pref = (Preferences) i.getSerializableExtra("PREFERENCES");
 		space = (StudySpace) i.getSerializableExtra("STUDYSPACE");

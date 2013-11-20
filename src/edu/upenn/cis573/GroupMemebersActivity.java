@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
@@ -34,6 +35,7 @@ public class GroupMemebersActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_group_memebers);
 		Intent receivedIntent = getIntent();
 		this.groupSelected = receivedIntent.getExtras().getString("groupSelected");

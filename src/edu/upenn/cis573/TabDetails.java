@@ -8,12 +8,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.webkit.WebView.FindListener;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,9 +30,26 @@ public class TabDetails extends Fragment {
 	private View unfav;
 	private Date begin;
 
+	private TextView spaceNameText;
+	private TextView roomTypeText;
+	private TextView roomNumberText;
+	private TextView maxOccupancyText;
+	private TextView reserveTypeText;
+	private TextView availableNowText;
+	private TextView favoriteText;
+	private TextView unfavoriteText;
+	private TextView yourFavStudySpaceTex;
+	private CheckBox calenderNotifyCheckBox;
+	private TextView addToCalenderText;
+	private CheckBox calenderReminderCheckBox;
+	private CheckBox reserveNotifyCheckBox;
+	private TextView reserveOnlineText;
+
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		View view = inflater.inflate(R.layout.tabdetails, container, false);
 		return view;
 	}
@@ -37,6 +57,7 @@ public class TabDetails extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
 		Intent i = getActivity().getIntent();
 		o = (StudySpace) i.getSerializableExtra("STUDYSPACE");
 		p = (Preferences) i.getSerializableExtra("PREFERENCES");
@@ -44,6 +65,9 @@ public class TabDetails extends Fragment {
 			p = new Preferences();
 		}
 
+		captureViewElements();
+		setTextFont();
+		
 		TextView tt = (TextView) getView().findViewById(R.id.spacename);
 		tt.setText(o.getBuildingName());
 
@@ -260,8 +284,15 @@ public class TabDetails extends Fragment {
 		}
 		
 		final Intent notifyGrpIntent = new Intent(getActivity(), NotifySelectedGroups.class);
-		notifyGrpIntent.putExtra("sms_body", "PennStudySpaces Reservation confirmed. Details - "+
-				o.getBuildingName() + " - " + o.getRooms()[0].getRoomName() + "\nTime: " + begin);
+		String smsBody = "PennStudySpaces Reservation confirmed. \nDetails - "+
+				o.getBuildingName() + " - " + o.getRooms()[0].getRoomName() + "\n" +
+				"\nStart Time: " + 
+				StudySpaceListActivity.searchOptions.getStartHour() + ":" + 
+				StudySpaceListActivity.searchOptions.getStartMinute() +
+				"\nEnd Time: " + StudySpaceListActivity.searchOptions.getEndHour() + ":" +
+				StudySpaceListActivity.searchOptions.getEndMinute();
+				
+		notifyGrpIntent.putExtra("sms_body", smsBody);
 		notifyGrpIntent.putExtra("emailSubject", "Penn Study Space Reservation Invitation");
 		notifyGrpIntent.putExtra("emailBody"   , "Building Name: " +
 					o.getBuildingName() + "\nRoom Name: " + o.getRooms()[0].getRoomName() + 
@@ -275,7 +306,7 @@ public class TabDetails extends Fragment {
 		final Intent calIntent = getCalIntent(v);
 		//final Intent sendIntent = getTextIntent(v);
 
-		CheckBox text = (CheckBox) getView().findViewById(R.id.resTextCheckBox);
+		CheckBox text = (CheckBox) getView().findViewById(R.id.notifyFriendsCheckBox);
 		
 		if(text!=null && text.isChecked()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -371,5 +402,46 @@ public class TabDetails extends Fragment {
 			AlertDialog alert = builder.create();
 			alert.show();
 		}
+	}
+	
+	public void captureViewElements() {
+		
+		spaceNameText = (TextView) getView().findViewById(R.id.spacename);
+		roomTypeText = (TextView) getView().findViewById(R.id.roomtype);
+		roomNumberText = (TextView) getView().findViewById(R.id.roomnumbers);
+		maxOccupancyText = (TextView) getView().findViewById(R.id.maxoccupancy);
+		reserveTypeText = (TextView) getView().findViewById(R.id.reservetype);
+		availableNowText = (TextView) getView().findViewById(R.id.availablenow);
+		favoriteText = (TextView) getView().findViewById(R.id.favorite);
+		unfavoriteText = (TextView) getView().findViewById(R.id.unfavoriteText);
+		yourFavStudySpaceTex = (TextView) getView().findViewById(R.id.yourFavStudySpace);
+		calenderNotifyCheckBox = (CheckBox) getView().findViewById(R.id.calTextCheckBox);
+		addToCalenderText = (TextView) getView().findViewById(R.id.addCalenderText);
+		calenderReminderCheckBox = (CheckBox) getView().findViewById(R.id.calCheckBox);
+		reserveNotifyCheckBox = (CheckBox) getView().findViewById(R.id.notifyFriendsCheckBox);
+		reserveOnlineText = (TextView) getView().findViewById(R.id.reserveOnline);
+	}
+	
+	public void setTextFont() {
+		
+		Typeface robotoCondensedRegular = Typeface.createFromAsset(getActivity().getAssets(), 
+				"fonts/RobotoCondensed-Regular.ttf");
+		Typeface robotoCondensedLight = Typeface.createFromAsset(getActivity().getAssets(), 
+				"fonts/RobotoCondensed-Light.ttf");
+		
+		spaceNameText.setTypeface(robotoCondensedRegular);
+		roomTypeText.setTypeface(robotoCondensedRegular);
+		roomNumberText.setTypeface(robotoCondensedRegular);
+		maxOccupancyText.setTypeface(robotoCondensedRegular);
+		reserveTypeText.setTypeface(robotoCondensedRegular);
+		availableNowText.setTypeface(robotoCondensedRegular);
+		favoriteText.setTypeface(robotoCondensedRegular);
+		unfavoriteText.setTypeface(robotoCondensedRegular);
+		yourFavStudySpaceTex.setTypeface(robotoCondensedRegular);
+		calenderNotifyCheckBox.setTypeface(robotoCondensedRegular);
+		addToCalenderText.setTypeface(robotoCondensedRegular);
+		calenderReminderCheckBox.setTypeface(robotoCondensedRegular);
+		reserveNotifyCheckBox.setTypeface(robotoCondensedRegular);
+		reserveOnlineText.setTypeface(robotoCondensedRegular);
 	}
 }

@@ -4,26 +4,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender.SendIntentException;
+import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemLongClickListener;
 
 /**
  * Activity called when the User is done reserving the room online
@@ -45,8 +45,12 @@ public class NotifySelectedGroups extends Activity {
 	private String emailBody = "";
 	private String textEmail = "";
 	
-	static class GroupInfoHolder
-	{
+	private Button notifyButton;
+	private Button cancelButton;
+	
+	Typeface robotoCondensedReg;
+
+	static class GroupInfoHolder {
 		TextView groupNameText;
 		CheckBox checkBox;
 	}
@@ -54,6 +58,7 @@ public class NotifySelectedGroups extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.notify_select_groups);
 		
 		Intent receivedIntent = getIntent();
@@ -69,6 +74,13 @@ public class NotifySelectedGroups extends Activity {
 		System.out.println (String.format("SMSBODY: %s EMAILSUB: %s EMAILBODY: %s", 
 				smsBody, emailSubject, emailBody));
 		final ListView listViewGroups = (ListView) findViewById(R.id.notify_listView);
+		
+		robotoCondensedReg = Typeface.createFromAsset(NotifySelectedGroups.this.getAssets(), 
+				"fonts/RobotoCondensed-Regular.ttf");
+		notifyButton = (Button) findViewById(R.id.notify_button);
+		cancelButton = (Button) findViewById(R.id.cancel_notify);
+		notifyButton.setTypeface(robotoCondensedReg);
+		cancelButton.setTypeface(robotoCondensedReg);
 		
 		listOfGroups = GroupDB.getInstance(this).getAllGroups();
 		adapter = new StableArrayAdapter(this,
@@ -270,7 +282,8 @@ public class NotifySelectedGroups extends Activity {
 		Boolean[] checkedGroups;
 		Context context;
 		List<String> groups;
-
+		Typeface robotoCondensedRegular;
+		
 		public StableArrayAdapter(Context context, int textViewResourceId,
 				List<String> objects) {
 			super(context, textViewResourceId, objects);
@@ -282,9 +295,8 @@ public class NotifySelectedGroups extends Activity {
 				checkedGroups[i] = false;
 				mIdMap.put(objects.get(i), i);
 			}
-			
-			System.out.println("Groups queried from DB " + objects);
-			
+			robotoCondensedRegular = Typeface.createFromAsset(NotifySelectedGroups.this.getAssets(), 
+					"fonts/RobotoCondensed-Regular.ttf");
 		}
 
 		@Override
@@ -300,10 +312,10 @@ public class NotifySelectedGroups extends Activity {
 		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent){
-
+			
 			View row = convertView;
 			GroupInfoHolder holder= null;
-
+			
 			if (row == null){
 
 				LayoutInflater inflater = ((Activity)context).getLayoutInflater();
@@ -313,8 +325,9 @@ public class NotifySelectedGroups extends Activity {
 
 				holder.groupNameText = (TextView) row.findViewById(R.id.groupNameText);
 				holder.checkBox = (CheckBox) row.findViewById(R.id.checkBoxGroup);
-
-				row.setTag(holder);
+				holder.groupNameText.setTypeface(robotoCondensedRegular);
+				
+				row.setTag(holder);			
 			}
 			else {
 				holder = (GroupInfoHolder) row.getTag();
@@ -348,5 +361,9 @@ public class NotifySelectedGroups extends Activity {
 			checkedGroups[pos] = isChecked;
 			System.out.println(groups.get(pos) + " Check: " + checkedGroups[pos]);
 		}
+	}
+	
+	public void onCancelButtonClick(View v) {
+		finish();
 	}
 }
