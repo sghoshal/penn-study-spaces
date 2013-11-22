@@ -2,6 +2,8 @@ package edu.upenn.cis573;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
+
 import edu.upenn.cis573.R;
 
 import android.app.Activity;
@@ -25,6 +27,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -237,12 +240,14 @@ public class SearchActivity extends Activity {
 		});
 		mPickEndTime.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				
 				showDialog(END_TIME_DIALOG_ID);
 			}
 		});
 		mPickDate.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				showDialog(DATE_DIALOG_ID);
+					
 			}
 		});
 
@@ -389,9 +394,13 @@ public class SearchActivity extends Activity {
 
 	private int fixYear(int year) {
 		Calendar c = Calendar.getInstance();
-		if (year < c.get(Calendar.YEAR)) {
+
+		if(year < c.get(Calendar.YEAR))
+		{
 			year = c.get(Calendar.YEAR);
 		}
+
+		
 		return year;
 	}
 
@@ -502,6 +511,37 @@ public class SearchActivity extends Activity {
 	private TimePicker.OnTimeChangedListener mStartTimeChangedListener =
 			new TimePicker.OnTimeChangedListener() {
 		public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+			Date startDate = new Date();
+			Date wrongStartDate = new Date();
+			startDate.setYear(mSearchOptions.getYear()-1900);    	
+			startDate.setMonth(mSearchOptions.getMonth());
+			startDate.setDate(mSearchOptions.getDay());
+			startDate.setHours(hourOfDay);
+			startDate.setMinutes(minute);
+			wrongStartDate.setYear(mSearchOptions.getYear()-1900);    	
+			wrongStartDate.setMonth(mSearchOptions.getMonth());
+			wrongStartDate.setDate(mSearchOptions.getDay());
+			wrongStartDate.setHours(hourOfDay);
+			wrongStartDate.setMinutes(minute+30);
+			Context context = getApplicationContext();
+			CharSequence text = "";
+			int duration = Toast.LENGTH_LONG;
+			
+			if(startDate.getTime() < System.currentTimeMillis())
+			{
+				text ="Select a valid time!!! Resetting...........";
+				Toast toast =Toast.makeText(context, text, duration);
+				toast.show();
+
+				;
+			}
+			else if(wrongStartDate.getTime() > mSearchOptions.getEndDate().getTime())
+			{
+				text = "Start time cannot be greater than or equal to end time!!! Resetting ..........";
+				Toast toast1 = Toast.makeText(context, text, duration);
+				toast1.show();
+			}
+			else
 			updateStartTimeDisplay(view, hourOfDay, minute);
 		}
 	};
@@ -509,7 +549,28 @@ public class SearchActivity extends Activity {
 	private TimePicker.OnTimeChangedListener mEndTimeChangedListener =
 			new TimePicker.OnTimeChangedListener() {
 		public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-			updateEndTimeDisplay(view, hourOfDay, minute);
+			Date startDate = new Date();
+			startDate.setYear(mSearchOptions.getYear()-1900);    	
+			startDate.setMonth(mSearchOptions.getMonth());
+			startDate.setDate(mSearchOptions.getDay());
+			startDate.setHours(hourOfDay);
+			startDate.setMinutes(minute);
+
+
+			if(startDate.getTime() < mSearchOptions.getStartDate().getTime())
+			{
+				Calendar c = Calendar.getInstance();
+				Context context = getApplicationContext();
+				CharSequence text = "End time must be lesser than start time!!! Resetting.....";
+				int duration = Toast.LENGTH_LONG;
+
+				Toast toast = Toast.makeText(context, text, duration);
+				toast.show();
+
+				;
+			}
+			else
+				updateEndTimeDisplay(view, hourOfDay, minute);
 		}
 	};
 
@@ -523,6 +584,27 @@ public class SearchActivity extends Activity {
 	private DatePicker.OnDateChangedListener mDateChangedListener =
 			new DatePicker.OnDateChangedListener() {
 		public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+			Date startDate = new Date();
+			startDate.setYear(view.getYear()-1900);    	
+			startDate.setMonth(view.getMonth());
+			startDate.setDate(view.getDayOfMonth());
+			startDate.setHours(mSearchOptions.getStartHour());
+			startDate.setMinutes(mSearchOptions.getStartMinute());
+
+
+			if(startDate.getTime() < System.currentTimeMillis())
+			{
+				Calendar c = Calendar.getInstance();
+				Context context = getApplicationContext();
+				CharSequence text = "Select a valid date!!! Resetting...........";
+				int duration = Toast.LENGTH_LONG;
+
+				Toast toast = Toast.makeText(context, text, duration);
+				toast.show();
+
+				;
+			}
+			else
 			updateDateDisplay(view, year, monthOfYear, dayOfMonth);
 		}
 	};
@@ -633,6 +715,7 @@ public class SearchActivity extends Activity {
 
 		Button dateOK = (Button)mCurrentDialog.findViewById(R.id.dateOK);
 		dateOK.setOnClickListener(mDateOKListener);
+
 	}
 
 	/**
