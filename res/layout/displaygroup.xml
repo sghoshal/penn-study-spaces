@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/blue" >
+     >
 
     <ListView
         android:id="@+id/listviewGroups"
@@ -10,19 +10,32 @@
         android:layout_height="393dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-		android:textColor="@color/lightgrey"
+		
         android:layout_below="@+id/createGroupButton" >
 
     </ListView>
+
     <Button
         android:id="@+id/createGroupButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/create_group_button"
-		android:textColor="@color/lightgrey"
- 		android:onClick="onCreateGrpButtonClick">
-    </Button>
+        android:onClick="onCreateGrpButtonClick"
+        android:text="create_group_button" />
+
+    <EditText
+        android:id="@+id/filter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/listviewGroups"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/createGroupButton"
+        android:ems="10"
+        android:hint="Filter Results" >
+
+        <requestFocus />
+    </EditText>
     
 </RelativeLayout>
