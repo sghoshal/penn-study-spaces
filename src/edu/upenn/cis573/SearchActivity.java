@@ -1013,6 +1013,13 @@ public class SearchActivity extends Activity {
 		startActivity(launchBrowser);
 	}
 	
+	
+	
+	public void onSpeakButtonClick(View view)
+    {
+        startVoiceRecognitionActivity();
+    }
+	
 	private void startVoiceRecognitionActivity()
     {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
