@@ -31,7 +31,7 @@ public class DisplayGroup extends Activity {
 	
 	
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState); 
+		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.displaygroup);  
 
