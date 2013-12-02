@@ -22,7 +22,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:onClick="onCreateGrpButtonClick"
-        android:text="create_group_button" />
+        android:text="Create Group" />
 
     <EditText
         android:id="@+id/filter"
