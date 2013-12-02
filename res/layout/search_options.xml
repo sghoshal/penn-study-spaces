@@ -21,12 +21,11 @@
             android:layout_marginRight="4dip" >
 
             <Button
-                    android:id="@+id/speakButton"
-                    android:layout_width="74dp"
-                    android:layout_height="45dp"
-                    android:background="@drawable/voice_commands_icon"
-                    android:onClick="onSpeakButtonClick"
-                    />
+                android:id="@+id/speakButton"
+                android:layout_width="61dp"
+                android:layout_height="45dp"
+                android:background="@drawable/voice_commands_icon"
+                android:onClick="onSpeakButtonClick" />
 
             <Button
                 android:id="@+id/viewGroupButton"
