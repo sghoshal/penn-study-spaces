@@ -1017,61 +1017,57 @@ public class SearchActivity extends Activity {
 	
 	public void onSpeakButtonClick(View view)
     {
-        startVoiceRecognitionActivity();
-    }
-	
-	private void startVoiceRecognitionActivity()
-    {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10);
         startActivityForResult(intent, REQUEST_CODE);
     }
 	
+		
 	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK)
         {
             
-            ArrayList<String> matches = data.getStringArrayListExtra(
+            ArrayList<String> wordsRecognized = data.getStringArrayListExtra(
                     RecognizerIntent.EXTRA_RESULTS);
             
-            checkSpeech(matches);
+            checkSpeech(wordsRecognized);
             
             
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-	public void checkSpeech(ArrayList<String> matches)
+	public void checkSpeech(ArrayList<String> wordsRecognized)
 	{
-		if(matches.contains("search") || matches.contains("search for results"))
+		if(wordsRecognized.contains("search") || wordsRecognized.contains("search for results"))
         	onSearchButtonClick(null);
         
-		else if(matches.contains("find") || matches.contains("find now"))
+		else if(wordsRecognized.contains("find") || wordsRecognized.contains("find now"))
         	onFindNowButtonClick(null);
         
-		else if(matches.contains("view groups") || matches.contains("see groups") || matches.contains("open groups"))
+		else if(wordsRecognized.contains("view groups") || wordsRecognized.contains("see groups") || wordsRecognized.contains("open groups"))
         	onViewGroupButtonClick(null);
         
-		else if(matches.contains("create group") || matches.contains("create a group") || matches.contains("make a group"))
+		else if(wordsRecognized.contains("create group") || wordsRecognized.contains("create a group") || wordsRecognized.contains("make a group"))
         	onGroupButtonClick(null);
         
-		else if(matches.contains("favorites") || matches.contains("view favorites") || matches.contains("open favorites") || matches.contains("see favorites"))
+		else if(wordsRecognized.contains("favorites") || wordsRecognized.contains("view favorites") || wordsRecognized.contains("open favorites") || wordsRecognized.contains("see favorites"))
         	onFavsButtonClick(null);
         
-		else if(matches.contains("help") || matches.contains("view help") || matches.contains("open help") || matches.contains("see help"))
+		else if(wordsRecognized.contains("help") || wordsRecognized.contains("view help") || wordsRecognized.contains("open help") || wordsRecognized.contains("see help"))
         	onHelpButtonClick(null);
         
-		else if(matches.contains("change date") || matches.contains("change the date") || matches.contains("edit date") || matches.contains("edit the date"))
+		else if(wordsRecognized.contains("change date") || wordsRecognized.contains("change the date") || wordsRecognized.contains("edit date") || wordsRecognized.contains("edit the date"))
         	showDialog(DATE_DIALOG_ID);
         
-		else if(matches.contains("change start time")|| matches.contains("change the start time") || matches.contains("edit start time") || matches.contains("edit the start time"))
+		else if(wordsRecognized.contains("change start time")|| wordsRecognized.contains("change the start time") || wordsRecognized.contains("edit start time") || wordsRecognized.contains("edit the start time"))
         	showDialog(START_TIME_DIALOG_ID);
         
-		else if(matches.contains("change end time")|| matches.contains("change the end time") || matches.contains("edit end time") || matches.contains("edit the end time"))
+		else if(wordsRecognized.contains("change end time")|| wordsRecognized.contains("change the end time") || wordsRecognized.contains("edit end time") || wordsRecognized.contains("edit the end time"))
         	showDialog(END_TIME_DIALOG_ID);
         
         else
