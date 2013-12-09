@@ -47,14 +47,14 @@ public class SearchActivity extends Activity {
 
 	public static double latitude = 0;
 	public static double longitude = 0;
-	
+
 	private Dialog mCurrentDialog;
 	private SearchOptions mSearchOptions;
 	private SharedPreferences search;
 	private String provider;
-	
+
 	private SeekBar mNumberOfPeopleSlider;
-	
+
 	private TextView mNumberOfPeopleTextView;
 	private TextView roomForTextView;
 	private TextView meetingDateTextView;
@@ -69,7 +69,7 @@ public class SearchActivity extends Activity {
 	private TextView libTextView;
 	private TextView otherTextView;
 	private TextView allTextView;
-	
+
 	private CheckBox mPrivateCheckBox;
 	private CheckBox mWhiteboardCheckBox;
 	private CheckBox mComputerCheckBox;
@@ -90,13 +90,13 @@ public class SearchActivity extends Activity {
 	private Button searchButton;
 	private Button findNowButton;
 	private Button whenToMeetButton;
-	
+
 	private static final int REQUEST_CODE = 1234;
 
-	
+
 	//revise the program
 	protected LocationManager locationManager;
-	
+
 	Boolean isInternetPresent = false;
 
 	// Connection detector class
@@ -160,17 +160,17 @@ public class SearchActivity extends Activity {
 	public static void setLatitude(double lat){
 		latitude = lat;
 	}
-	
+
 	/**
 	 * 
 	 */
 	public void setFontForTexts () {
-		
+
 		Typeface robotoCondensedRegular = Typeface.createFromAsset(getAssets(), 
 				"fonts/RobotoCondensed-Regular.ttf");
 		Typeface robotoRegular = Typeface.createFromAsset(getAssets(), 
 				"fonts/Roboto-Regular.ttf");
-		
+
 		roomForTextView.setTypeface(robotoCondensedRegular);
 		meetingDateTextView.setTypeface(robotoCondensedRegular);
 		meetingTimeTextView.setTypeface(robotoCondensedRegular);
@@ -183,14 +183,13 @@ public class SearchActivity extends Activity {
 		allTextView.setTypeface(robotoCondensedRegular);
 		searchButton.setTypeface(robotoCondensedRegular);
 		findNowButton.setTypeface(robotoCondensedRegular);
-		whenToMeetButton.setTypeface(robotoCondensedRegular);
 		mPrivateCheckBox.setTypeface(robotoCondensedRegular);
 		mWhiteboardCheckBox.setTypeface(robotoCondensedRegular);
 		mComputerCheckBox.setTypeface(robotoCondensedRegular);
 		mProjectorCheckBox.setTypeface(robotoCondensedRegular);
 		mReservableCheckBox.setTypeface(robotoCondensedRegular);
 		// mViewGroupButton.setTypeface(robotoCondensedRegular);
-		
+
 		mNumberOfPeopleTextView.setTypeface(robotoRegular);
 		mDateDisplay.setTypeface(robotoRegular);
 		mStartTimeDisplay.setTypeface(robotoRegular);
@@ -244,14 +243,14 @@ public class SearchActivity extends Activity {
 		});
 		mPickEndTime.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				
+
 				showDialog(END_TIME_DIALOG_ID);
 			}
 		});
 		mPickDate.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				showDialog(DATE_DIALOG_ID);
-					
+
 			}
 		});
 
@@ -260,9 +259,88 @@ public class SearchActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
+		//inflater.inflate(R.menu.menu, menu);
+		inflater.inflate(R.menu.action_bar, menu);
+		setTitle("StudySpaces");
+		getActionBar().setDisplayShowTitleEnabled(true);
 		return true;
 	}
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Take appropriate action for each action item click
+		switch (item.getItemId()) {
+		case R.id.action_menu:
+			// search action
+			return true;
+
+		case R.id.action_help:
+			// help action
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	public boolean onMyGroupsClick(MenuItem menu) {
+		Intent intent = new Intent(this, DisplayGroup.class);
+		startActivity(intent);
+		return true;
+	}
+
+	public boolean onMyFavoritesClick(MenuItem menu) {
+		cd = new ConnectionDetector(getApplicationContext());
+
+		// get Internet status
+		isInternetPresent = cd.isConnectingToInternet();
+		if (isInternetPresent){
+			putDataInSearchOptionsObject();
+
+			//Returns to List activity
+			Intent i = new Intent();
+			//Put your searchOption class here
+			mSearchOptions.setFavSelected(true);
+			i.putExtra("SEARCH_OPTIONS", (Serializable)mSearchOptions);
+
+			//on search trigger test
+			//this.showCurrentLocation();
+			setResult(RESULT_OK, i);
+			//ends this activity
+			finish();
+		} else {
+			cd.showAlertDialog(SearchActivity.this, "No Internet Connection",
+					"You don't have internet connection.", false);
+
+		}
+		return false;
+	}
+
+	public boolean onHelpClick(MenuItem menu) {
+		System.out.println("Click the help button!");
+		Intent intent = new Intent(this, Help.class);
+		startActivity(intent);
+		return false;
+	}
+	
+	public boolean onVoiceSearchClick(MenuItem menu) {
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+				RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10);
+		startActivityForResult(intent, REQUEST_CODE);
+		return false;
+	}
+
+	public boolean onWhenToMeetClick(MenuItem menu) {
+		Uri uriUrl = Uri.parse("http://when2meet.com/");  
+		Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl); 
+		startActivity(launchBrowser);
+		return true;
+	}
+
+
 
 	/**
 	 * Calls the method to pop up a time/date dialog box.
@@ -404,7 +482,7 @@ public class SearchActivity extends Activity {
 			year = c.get(Calendar.YEAR);
 		}
 
-		
+
 		return year;
 	}
 
@@ -530,7 +608,7 @@ public class SearchActivity extends Activity {
 			Context context = getApplicationContext();
 			CharSequence text = "";
 			int duration = Toast.LENGTH_LONG;
-			
+
 			if(startDate.getTime() < System.currentTimeMillis())
 			{
 				text ="Select a valid time!!! Resetting...........";
@@ -546,7 +624,7 @@ public class SearchActivity extends Activity {
 				toast1.show();
 			}
 			else
-			updateStartTimeDisplay(view, hourOfDay, minute);
+				updateStartTimeDisplay(view, hourOfDay, minute);
 		}
 	};
 
@@ -609,7 +687,7 @@ public class SearchActivity extends Activity {
 				;
 			}
 			else
-			updateDateDisplay(view, year, monthOfYear, dayOfMonth);
+				updateDateDisplay(view, year, monthOfYear, dayOfMonth);
 		}
 	};
 
@@ -818,16 +896,6 @@ public class SearchActivity extends Activity {
 		}
 	}    
 
-	/**
-	 * Listener for the Help Button
-	 * Action to perform help button click
-	 * @param view
-	 */
-	public void onHelpButtonClick(View view){
-		System.out.println("Click the help button!");
-		Intent intent = new Intent(this, Help.class);
-		startActivity(intent);
-	}
 
 	/**
 	 * Sets the fields in SearchOptions instance
@@ -938,25 +1006,22 @@ public class SearchActivity extends Activity {
 	}
 
 	private void captureViewElements() {
-		
+
 		mNumberOfPeopleSlider = (SeekBar)findViewById(R.id.numberOfPeopleSlider);
-		
-		//mViewGroupButton = (Button) findViewById(R.id.viewGroupButton);
-		mAddGroupButton = (Button) findViewById(R.id.addGrpButton);
-		mFavoritesButton = (Button) findViewById(R.id.favoritesButton);
+
 		mPickStartTime = (Button) findViewById(R.id.pickStartTime);
 		mPickEndTime = (Button) findViewById(R.id.pickEndTime);
 		mPickDate = (Button) findViewById(R.id.pickDate);
 		searchButton = (Button) findViewById(R.id.searchButton);
 		findNowButton = (Button) findViewById(R.id.findNowButton);
 		whenToMeetButton = (Button) findViewById(R.id.whenToMeetButton);
-		
+
 		mPrivateCheckBox = (CheckBox) findViewById(R.id.privateCheckBox);
 		mWhiteboardCheckBox = (CheckBox) findViewById(R.id.whiteboardCheckBox);
 		mComputerCheckBox = (CheckBox) findViewById(R.id.computerCheckBox);
 		mProjectorCheckBox = (CheckBox) findViewById(R.id.projectorCheckBox);
 		mReservableCheckBox = (CheckBox) findViewById(R.id.reservableCheckBox);
-		
+
 		mEngiBox = (CheckBox) findViewById(R.id.engibox);
 		mWharBox =(CheckBox) findViewById(R.id.whartonbox);
 		mLibBox = (CheckBox) findViewById(R.id.libbox);
@@ -973,7 +1038,7 @@ public class SearchActivity extends Activity {
 		libTextView = (TextView) findViewById(R.id.libText);
 		otherTextView = (TextView) findViewById(R.id.otherText);
 		allTextView = (TextView) findViewById(R.id.allText);
-		
+
 		mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
 		mStartTimeDisplay = (TextView) findViewById(R.id.startTimeDisplay);
 		mEndTimeDisplay = (TextView) findViewById(R.id.endTimeDisplay);
@@ -1003,77 +1068,67 @@ public class SearchActivity extends Activity {
 		startActivity(intent);
 	}
 
-	/**
-	 * Action to be performed on clicking when-to-meet button
-	 * @param view
-	 */
-	public void onWhenToMeetButtonClick(View view) {
-		Uri uriUrl = Uri.parse("http://when2meet.com/");  
-		Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl); 
-		startActivity(launchBrowser);
-	}
-	
-	
-	
+
+
 	public void onSpeakButtonClick(View view)
-    {
+	{
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10);
-        startActivityForResult(intent, REQUEST_CODE);
-    }
-	
-		
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+				RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10);
+		startActivityForResult(intent, REQUEST_CODE);
+	}
+
+
 	@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK)
-        {
-            
-            ArrayList<String> wordsRecognized = data.getStringArrayListExtra(
-                    RecognizerIntent.EXTRA_RESULTS);
-            
-            checkSpeech(wordsRecognized);
-            
-            
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if (requestCode == REQUEST_CODE && resultCode == RESULT_OK)
+		{
+
+			ArrayList<String> wordsRecognized = data.getStringArrayListExtra(
+					RecognizerIntent.EXTRA_RESULTS);
+
+			checkSpeech(wordsRecognized);
+
+
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 
 	public void checkSpeech(ArrayList<String> wordsRecognized)
 	{
 		if(wordsRecognized.contains("search") || wordsRecognized.contains("search for results"))
-        	onSearchButtonClick(null);
-        
-		else if(wordsRecognized.contains("find") || wordsRecognized.contains("find now"))
-        	onFindNowButtonClick(null);
-        
-		else if(wordsRecognized.contains("view groups") || wordsRecognized.contains("see groups") || wordsRecognized.contains("open groups"))
-        	onViewGroupButtonClick(null);
-        
-		else if(wordsRecognized.contains("create group") || wordsRecognized.contains("create a group") || wordsRecognized.contains("make a group"))
-        	onGroupButtonClick(null);
-        
-		else if(wordsRecognized.contains("favorites") || wordsRecognized.contains("view favorites") || wordsRecognized.contains("open favorites") || wordsRecognized.contains("see favorites"))
-        	onFavsButtonClick(null);
-        
-		else if(wordsRecognized.contains("help") || wordsRecognized.contains("view help") || wordsRecognized.contains("open help") || wordsRecognized.contains("see help"))
-        	onHelpButtonClick(null);
-        
-		else if(wordsRecognized.contains("change date") || wordsRecognized.contains("change the date") || wordsRecognized.contains("edit date") || wordsRecognized.contains("edit the date"))
-        	showDialog(DATE_DIALOG_ID);
-        
-		else if(wordsRecognized.contains("change start time")|| wordsRecognized.contains("change the start time") || wordsRecognized.contains("edit start time") || wordsRecognized.contains("edit the start time"))
-        	showDialog(START_TIME_DIALOG_ID);
-        
-		else if(wordsRecognized.contains("change end time")|| wordsRecognized.contains("change the end time") || wordsRecognized.contains("edit end time") || wordsRecognized.contains("edit the end time"))
-        	showDialog(END_TIME_DIALOG_ID);
-        
-        else
-        	Toast.makeText(this, "Voice command not recognized.", Toast.LENGTH_SHORT).show();
+			onSearchButtonClick(null);
 
-        return;
+				else if(wordsRecognized.contains("find") || wordsRecognized.contains("find now"))
+					onFindNowButtonClick(null);
+
+				else if(wordsRecognized.contains("view groups") || wordsRecognized.contains("see groups") || wordsRecognized.contains("open groups"))
+					onViewGroupButtonClick(null);
+
+				else if(wordsRecognized.contains("create group") || wordsRecognized.contains("create a group") || wordsRecognized.contains("make a group"))
+					onGroupButtonClick(null);
+
+				else if(wordsRecognized.contains("favorites") || wordsRecognized.contains("view favorites") || wordsRecognized.contains("open favorites") || wordsRecognized.contains("see favorites"))
+					onFavsButtonClick(null);
+
+				else if(wordsRecognized.contains("help") || wordsRecognized.contains("view help") || wordsRecognized.contains("open help") || wordsRecognized.contains("see help"))
+					onHelpClick(null);
+
+				else if(wordsRecognized.contains("change date") || wordsRecognized.contains("change the date") || wordsRecognized.contains("edit date") || wordsRecognized.contains("edit the date"))
+					showDialog(DATE_DIALOG_ID);
+
+				else if(wordsRecognized.contains("change start time")|| wordsRecognized.contains("change the start time") || wordsRecognized.contains("edit start time") || wordsRecognized.contains("edit the start time"))
+					showDialog(START_TIME_DIALOG_ID);
+
+				else if(wordsRecognized.contains("change end time")|| wordsRecognized.contains("change the end time") || wordsRecognized.contains("edit end time") || wordsRecognized.contains("edit the end time"))
+					showDialog(END_TIME_DIALOG_ID);
+
+				else
+					Toast.makeText(this, "Voice command not recognized.", Toast.LENGTH_SHORT).show();
+
+		return;
 	}
 
 }

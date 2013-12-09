@@ -1,26 +1,18 @@
 package edu.upenn.cis573;
 
-import java.io.File;
 import java.util.Locale;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import android.os.Build;
-import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
-import android.content.res.AssetManager;
-import android.renderscript.Element;
+import android.os.Build;
+import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -29,6 +21,8 @@ import android.widget.Toast;
 public class Help extends Activity implements OnClickListener, OnInitListener{
 	
 	private TextToSpeech tts;
+	private Button voiceHelpButton;
+	private boolean muteSpeaker = false;
 	
 	@SuppressLint("NewApi")
 	@Override
@@ -36,14 +30,23 @@ public class Help extends Activity implements OnClickListener, OnInitListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.help);	
 		tts = new TextToSpeech(this, this);
-		findViewById(R.id.voiceHelpButton).setOnClickListener(this);
+		voiceHelpButton = (Button) findViewById(R.id.voiceHelpButton);
+		voiceHelpButton.setOnClickListener(this);
+		
+		// get action bar   
+        ActionBar actionBar = getActionBar();
+        // Enabling Up / Back navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@TargetApi(Build.VERSION_CODES.DONUT)
 	@SuppressLint("NewApi")
 	@Override
 	public void onClick(View v) {
-		if (tts!=null) {
+		if (tts != null) {
+			muteSpeaker = !muteSpeaker;
+			
+			
 			
 			String text = "Welcome to Penn Study Spaces";
 			System.out.println(text);
@@ -52,10 +55,13 @@ public class Help extends Activity implements OnClickListener, OnInitListener{
 			text += getResources().getString(R.string.study_space_info_help);
 			text += getResources().getString(R.string.map_screen_help);
 			
-			if (text!=null) {
-				if (!tts.isSpeaking()) {
+			if (text != null) {
+				if (!tts.isSpeaking() && muteSpeaker) {
 					tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
 				}
+				else if(tts.isSpeaking() && !muteSpeaker) {
+					tts.stop();
+				}	
 			}
 		}
 			

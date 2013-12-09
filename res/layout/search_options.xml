@@ -4,68 +4,20 @@
     android:layout_height="wrap_content" >
 
     <LinearLayout
-        style="?android:attr/buttonBarButtonStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/blue"
         android:orientation="vertical"
-        android:padding="1dip" >
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dip"
-            android:layout_marginRight="4dip"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/speakButton"
-                android:layout_width="61dp"
-                android:layout_height="45dp"
-                android:background="@drawable/voice_commands_icon"
-                android:onClick="onSpeakButtonClick" />
-
-            <!-- <Button
-                android:id="@+id/viewGroupButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onViewGroupButtonClick"
-                android:text="@string/view_group" /> -->
-
-            <TextView
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/addGrpButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="58dp"
-                android:layout_height="52dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/group_icon"
-                android:onClick="onViewGroupButtonClick" />
-
-            <Button
-                android:id="@+id/favoritesButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/favoritesbutton"
-                android:onClick="onFavsButtonClick" />
-        </LinearLayout>
+        android:padding="20dip"
+        android:scaleType="fitXY" >
 
         <TextView
             android:id="@+id/roomForText"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dip"
-            android:layout_marginRight="4dip"
             android:gravity="left"
             android:text="Room for (no of people):"
-            android:textSize="22sp" />
+            android:textSize="26sp" />
 
         <View
             android:layout_width="match_parent"
@@ -87,6 +39,7 @@
                 android:layout_marginRight="4dip"
                 android:layout_marginTop="8dip"
                 android:layout_weight="1"
+                android:textSize="18sp"
                 android:text="" />
 
             <SeekBar
@@ -104,12 +57,10 @@
             android:id="@+id/meetingDateText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dip"
-            android:layout_marginRight="4dip"
-            android:layout_marginTop="2dp"
+            android:paddingTop="15dip"
             android:gravity="left"
             android:text="Meeting date:"
-            android:textSize="22sp" />
+            android:textSize="26sp" />
 
         <View
             android:layout_width="match_parent"
@@ -120,7 +71,7 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="32dp"
+            android:layout_height="38dp"
             android:orientation="horizontal" >
 
             <TextView
@@ -131,11 +82,11 @@
                 android:layout_marginLeft="4dip"
                 android:layout_marginRight="2dip"
                 android:layout_weight="3"
+                android:textSize="18sp"
                 android:text="" />
 
             <Button
                 android:id="@+id/pickDate"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dip"
@@ -147,12 +98,11 @@
             android:id="@+id/meetingTimeText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dip"
-            android:layout_marginRight="4dip"
+ 
             android:gravity="left"
-            android:paddingBottom="1dp"
+            android:paddingTop="15dip"
             android:text="Meeting time:"
-            android:textSize="22sp" />
+            android:textSize="26sp" />
 
         <View
             android:layout_width="match_parent"
@@ -164,7 +114,7 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="34dp"
+            android:layout_height="40dip"
             android:orientation="horizontal" >
 
             <TextView
@@ -177,7 +127,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="Start: "
-                android:textSize="20dp" />
+                android:textSize="22dp" />
 
             <TextView
                 android:id="@+id/startTimeDisplay"
@@ -185,11 +135,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="2"
+                android:textSize="18sp"
                 android:text="" />
 
             <Button
                 android:id="@+id/pickStartTime"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dip"
@@ -198,7 +148,7 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="34dp"
+            android:layout_height="40dip"
             android:orientation="horizontal" >
 
             <TextView
@@ -210,7 +160,7 @@
                 android:layout_weight="0.99"
                 android:gravity="left"
                 android:text="End: "
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/endTimeDisplay"
@@ -218,11 +168,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="2"
+                android:textSize="20sp"
                 android:text="" />
 
             <Button
                 android:id="@+id/pickEndTime"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dip"
@@ -239,36 +189,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
+                android:paddingTop="20dip"
                 android:orientation="vertical" >
 
                 <CheckBox
                     android:id="@+id/privateCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="20sp"
                     android:text="@string/private_check_box" />
 
                 <CheckBox
                     android:id="@+id/whiteboardCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="20sp"
                     android:text="@string/whiteboard_check_box" />
 
                 <CheckBox
                     android:id="@+id/computerCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="20sp"
                     android:text="@string/computer_check_box" />
 
                 <CheckBox
                     android:id="@+id/projectorCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="20sp"
                     android:text="@string/projector_check_box" />
 
                 <CheckBox
                     android:id="@+id/reservableCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="20sp"
                     android:text="@string/reservable_check_box" />
             </LinearLayout>
 
@@ -281,6 +237,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="20dip"
                     android:orientation="horizontal" >
 
                     <CheckBox
@@ -302,7 +259,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="ngineering"
-                        android:textSize="18sp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -313,7 +270,8 @@
                     <CheckBox
                         android:id="@+id/whartonbox"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp" />
 
                     <ImageView
                         android:layout_width="24dp"
@@ -329,7 +287,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="harton"
-                        android:textSize="18sp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -356,7 +314,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="ibrary"
-                        android:textSize="18sp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -383,7 +341,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="thers"
-                        android:textSize="18sp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -395,6 +353,7 @@
                         android:id="@+id/all"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="20sp"
                         android:checked="false" />
 
                     <ImageView
@@ -411,8 +370,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:onClick="allCheck"
+                        android:textSize="20sp"
                         android:text="ll"
-                        android:textSize="18sp" />
+                         />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -426,63 +386,22 @@
 
             <Button
                 android:id="@+id/searchButton"
-                android:layout_width="wrap_content"
+                android:layout_width="160dip"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
                 android:onClick="onSearchButtonClick"
                 android:text="Search" />
 
-            <View
-                android:id="@+id/divider1"
-                android:layout_width="1dip"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/searchButton"
-                android:background="?android:attr/dividerVertical" />
 
             <Button
                 android:id="@+id/findNowButton"
-                android:layout_width="wrap_content"
+                android:layout_width="160dip"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/divider1"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/searchButton"
                 android:onClick="onFindNowButtonClick"
                 android:text="Find Now!" />
 
-            <View
-                android:id="@+id/divider2"
-                android:layout_width="1dip"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:background="?android:attr/dividerVertical"
-                android:layout_toRightOf="@+id/findNowButton" />
-
-            <Button
-                android:id="@+id/whenToMeetButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/divider2"
-                android:onClick="onWhenToMeetButtonClick"
-                android:text="Meet!" />
-            <View
-                android:id="@+id/divider3"
-                android:layout_width="1dip"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:background="?android:attr/dividerVertical"
-                android:layout_toRightOf="@+id/whenToMeetButton" />
-
-            <ImageButton
-                android:id="@+id/imageButton1"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/divider3"
-                android:src="@drawable/iconhelp"
-                android:onClick="onHelpButtonClick" />
 
         </RelativeLayout>
     </LinearLayout>

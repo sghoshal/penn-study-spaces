@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    
+    <!-- Voice Help -->
+    <item
+        android:id="@+id/action_voice"
+        android:icon="@drawable/abc_ic_voice_search"
+        android:showAsAction="always"
+		android:onClick="onVoiceSearchClick"
+        android:title="Voice" />
+
+        
+    <!-- Help -->
+    <item
+        android:id="@+id/action_help"
+        android:icon="@drawable/ic_action_help"
+        android:showAsAction="always"
+        android:onClick="onHelpClick"
+        android:title="Help"/>
+    
+    
+    <!-- Menu / will display always -->
+    <item
+        android:id="@+id/action_menu"
+        android:icon="@drawable/abc_ic_menu_moreoverflow_normal_holo_dark"
+        android:showAsAction="always|withText"
+        android:title="Menu">
+        <menu>
+            <item
+                android:id="@+id/menu_favorite"
+                android:icon="@drawable/ic_action_favorite"
+                android:onClick="onMyFavoritesClick"
+                android:title="My Favorites" />
+            <item
+                android:id="@+id/menu_groups"
+                android:icon="@drawable/ic_action_group"
+                android:onClick="onMyGroupsClick"
+                android:title="My Groups" />
+            <item
+                android:id="@+id/whenToMeetButton"
+                android:icon="@drawable/when2meet"
+                android:onClick="onWhenToMeetClick"
+                android:title="When2Meet" />
+        </menu>
+    </item>
+
+</menu>
