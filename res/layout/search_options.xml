@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-     >
+    android:layout_height="wrap_content" >
 
     <LinearLayout
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:background="@drawable/blue"
-        
+        android:orientation="vertical"
         android:padding="1dip" >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" 
             android:layout_marginLeft="4dip"
-            android:layout_marginRight="4dip" >
+            android:layout_marginRight="4dip"
+            android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/speakButton"
@@ -27,17 +25,17 @@
                 android:background="@drawable/voice_commands_icon"
                 android:onClick="onSpeakButtonClick" />
 
-            <Button
+            <!-- <Button
                 android:id="@+id/viewGroupButton"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="onViewGroupButtonClick"
-                android:text="@string/view_group" />
+                android:text="@string/view_group" /> -->
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
@@ -48,7 +46,7 @@
                 android:layout_height="52dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/group_icon"
-                android:onClick="onGroupButtonClick" />
+                android:onClick="onViewGroupButtonClick" />
 
             <Button
                 android:id="@+id/favoritesButton"
@@ -63,16 +61,15 @@
             android:id="@+id/roomForText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
             android:layout_marginLeft="4dip"
             android:layout_marginRight="4dip"
+            android:gravity="left"
             android:text="Room for (no of people):"
-            android:textSize="22dp" />
+            android:textSize="22sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
-            android:layout_alignParentTop="true"
             android:layout_marginLeft="4dip"
             android:layout_marginRight="4dip"
             android:background="?android:attr/listDivider" />
@@ -87,8 +84,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dip"
-            	android:layout_marginRight="4dip"
-            	android:layout_marginTop="8dip"
+                android:layout_marginRight="4dip"
+                android:layout_marginTop="8dip"
                 android:layout_weight="1"
                 android:text="" />
 
@@ -107,21 +104,20 @@
             android:id="@+id/meetingDateText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:gravity="left"
             android:layout_marginLeft="4dip"
             android:layout_marginRight="4dip"
+            android:layout_marginTop="2dp"
+            android:gravity="left"
             android:text="Meeting date:"
-            android:textSize="22dp" />
-        
-      <View
+            android:textSize="22sp" />
+
+        <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
-            android:layout_alignParentTop="true"
             android:layout_marginLeft="4dip"
             android:layout_marginRight="4dip"
             android:background="?android:attr/listDivider" />
-      
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="32dp"
@@ -133,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center"
                 android:layout_marginLeft="4dip"
-            	android:layout_marginRight="2dip"
+                android:layout_marginRight="2dip"
                 android:layout_weight="3"
                 android:text="" />
 
@@ -143,7 +139,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dip"
-            	android:layout_marginRight="4dip"
+                android:layout_marginRight="4dip"
                 android:text="@string/Edit" />
         </LinearLayout>
 
@@ -151,13 +147,13 @@
             android:id="@+id/meetingTimeText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:paddingBottom="1dp"
             android:layout_marginLeft="4dip"
             android:layout_marginRight="4dip"
+            android:gravity="left"
+            android:paddingBottom="1dp"
             android:text="Meeting time:"
-            android:textSize="22dp" />
-        
+            android:textSize="22sp" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
@@ -176,10 +172,10 @@
                 android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginLeft="4dip"
+                android:layout_marginRight="4dip"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:layout_marginLeft="4dip"
-            	android:layout_marginRight="4dip"
                 android:text="Start: "
                 android:textSize="20dp" />
 
@@ -196,7 +192,7 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-            	android:layout_marginRight="4dip"
+                android:layout_marginRight="4dip"
                 android:text="@string/Edit" />
         </LinearLayout>
 
@@ -209,12 +205,12 @@
                 android:id="@+id/endTimeText"
                 android:layout_width="75dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="4dip"
+                android:layout_marginRight="4dip"
                 android:layout_weight="0.99"
                 android:gravity="left"
-                android:layout_marginLeft="4dip"
-            	android:layout_marginRight="4dip"
                 android:text="End: "
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/endTimeDisplay"
@@ -229,11 +225,12 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-            	android:layout_marginRight="4dip"
+                android:layout_marginRight="4dip"
                 android:text="@string/Edit" />
         </LinearLayout>
 
         <LinearLayout
+            android:baselineAligned="false"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
@@ -305,7 +302,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="ngineering"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -332,7 +329,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="harton"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -359,7 +356,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="ibrary"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -386,7 +383,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="thers"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -415,57 +412,79 @@
                         android:layout_marginTop="5dp"
                         android:onClick="allCheck"
                         android:text="ll"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="10dp" >
+            android:layout_marginTop="10dip"
+            android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/searchButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="71dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="1dp"
-                android:layout_weight="0.08"
-                android:background="#00445C"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
                 android:onClick="onSearchButtonClick"
                 android:text="Search" />
 
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="1dip"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/searchButton"
+                android:background="?android:attr/dividerVertical" />
+
             <Button
                 android:id="@+id/findNowButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="82dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="1dp"
-                android:background="#00445C"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/divider1"
                 android:onClick="onFindNowButtonClick"
                 android:text="Find Now!" />
 
-            <Button
-                android:id="@+id/whenToMeetButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="30dp"
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="1dip"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.26"
-                android:background="#00445C"
-                android:onClick="onWhenToMeetButtonClick"
-                android:text="Meet!" />
+                android:layout_centerVertical="true"
+                android:background="?android:attr/dividerVertical"
+                android:layout_toRightOf="@+id/findNowButton" />
 
             <Button
-                android:id="@+id/helpButton"
+                android:id="@+id/whenToMeetButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/divider2"
+                android:onClick="onWhenToMeetButtonClick"
+                android:text="Meet!" />
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="1dip"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="?android:attr/dividerVertical"
+                android:layout_toRightOf="@+id/whenToMeetButton" />
+
+            <ImageButton
+                android:id="@+id/imageButton1"
                 style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="33dp"
-                android:layout_height="25dp"
-                android:background="@drawable/iconhelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/divider3"
+                android:src="@drawable/iconhelp"
                 android:onClick="onHelpButtonClick" />
-        </LinearLayout>
+
+        </RelativeLayout>
     </LinearLayout>
 
 </ScrollView>

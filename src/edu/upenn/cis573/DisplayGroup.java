@@ -1,5 +1,4 @@
 package edu.upenn.cis573;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -9,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,8 +28,25 @@ public class DisplayGroup extends Activity {
 	private static List<String> listOfGroups=null;
 	private String groupSelected;
 	private StableArrayAdapter adapter;
+	private Button createGroupButton;
+	private EditText filterText;
 	
+	private void captureElements() {
+		createGroupButton = (Button) findViewById(R.id.createGroupButton);
+		filterText = (EditText) findViewById(R.id.filter);
+	}
 	
+	public void setFontForTexts () {
+		
+		Typeface robotoCondensedRegular = Typeface.createFromAsset(getAssets(), 
+				"fonts/RobotoCondensed-Regular.ttf");
+		Typeface robotoRegular = Typeface.createFromAsset(getAssets(), 
+				"fonts/Roboto-Regular.ttf");
+		
+		createGroupButton.setTypeface(robotoCondensedRegular);
+		filterText.setTypeface(robotoCondensedRegular);
+	}
+		
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -37,15 +54,17 @@ public class DisplayGroup extends Activity {
 
 		final ListView listViewGroups = (ListView) findViewById(R.id.listviewGroups);
 		
-		
 		listOfGroups = GroupDB.getInstance(this).getAllGroups();
 		adapter = new StableArrayAdapter(this,
 				android.R.layout.simple_list_item_1, listOfGroups);
 		listViewGroups.setAdapter(adapter);
-
+		
+		captureElements();
+		setFontForTexts();
+		
 		setClickListener(listViewGroups);
 		setLongClickListener(listViewGroups);
-				
+		
 		
 		final TextView search = (EditText) findViewById(R.id.filter);
 		search.addTextChangedListener(new TextWatcher() {

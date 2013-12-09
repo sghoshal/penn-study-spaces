@@ -189,7 +189,7 @@ public class SearchActivity extends Activity {
 		mComputerCheckBox.setTypeface(robotoCondensedRegular);
 		mProjectorCheckBox.setTypeface(robotoCondensedRegular);
 		mReservableCheckBox.setTypeface(robotoCondensedRegular);
-		mViewGroupButton.setTypeface(robotoCondensedRegular);
+		// mViewGroupButton.setTypeface(robotoCondensedRegular);
 		
 		mNumberOfPeopleTextView.setTypeface(robotoRegular);
 		mDateDisplay.setTypeface(robotoRegular);
@@ -941,7 +941,7 @@ public class SearchActivity extends Activity {
 		
 		mNumberOfPeopleSlider = (SeekBar)findViewById(R.id.numberOfPeopleSlider);
 		
-		mViewGroupButton = (Button) findViewById(R.id.viewGroupButton);
+		//mViewGroupButton = (Button) findViewById(R.id.viewGroupButton);
 		mAddGroupButton = (Button) findViewById(R.id.addGrpButton);
 		mFavoritesButton = (Button) findViewById(R.id.favoritesButton);
 		mPickStartTime = (Button) findViewById(R.id.pickStartTime);
