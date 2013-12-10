@@ -1,8 +1,10 @@
 package edu.upenn.cis573;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,8 +14,10 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -25,11 +29,12 @@ import android.widget.TextView;
 
 public class DisplayGroup extends Activity {
 
-	private static List<String> listOfGroups=null;
+	private static List<String> listOfGroups = null;
 	private String groupSelected;
 	private StableArrayAdapter adapter;
 	private Button createGroupButton;
 	private EditText filterText;
+	private ListView listViewGroups = null;
 	
 	private void captureElements() {
 		createGroupButton = (Button) findViewById(R.id.createGroupButton);
@@ -49,10 +54,13 @@ public class DisplayGroup extends Activity {
 		
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.displaygroup);  
 
-		final ListView listViewGroups = (ListView) findViewById(R.id.listviewGroups);
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        
+		listViewGroups = (ListView) findViewById(R.id.listviewGroups);
 		
 		listOfGroups = GroupDB.getInstance(this).getAllGroups();
 		adapter = new StableArrayAdapter(this,
@@ -65,12 +73,11 @@ public class DisplayGroup extends Activity {
 		setClickListener(listViewGroups);
 		setLongClickListener(listViewGroups);
 		
-		
 		final TextView search = (EditText) findViewById(R.id.filter);
 		search.addTextChangedListener(new TextWatcher() {
 			public void afterTextChanged(Editable s) {
 				String query = search.getText().toString();
-				adapter.filterResults(query);
+				filterResults(query);
 			}
 
 			public void beforeTextChanged(CharSequence s, int start, int count,
@@ -106,6 +113,60 @@ public class DisplayGroup extends Activity {
 		});
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		//inflater.inflate(R.menu.menu, menu);
+		inflater.inflate(R.menu.display_groups_menu, menu);
+		setTitle("My Groups");
+		getActionBar().setDisplayShowTitleEnabled(true);
+		return true;
+	}
+	
+	/**
+	 * Help clicked from the action bar
+	 * @param menu
+	 * @return
+	 */
+	public boolean onHelpClick(MenuItem menu) {
+		System.out.println("Click the help button!");
+		Intent intent = new Intent(this, Help.class);
+		startActivity(intent);
+		return false;
+	}
+	
+	/**
+	 * Whenever a text is entered in the filter text box, the results are filtereds
+	 * @param query
+	 */
+	@SuppressWarnings("unchecked")
+	public void filterResults(String query) {
+		query = query.toLowerCase(Locale.US);
+		GroupDB gdb = new GroupDB(getApplicationContext());
+		List<String> listItems = new ArrayList<String>();
+		
+		for (int i = 0; i < listOfGroups.size(); i++) {
+			listItems.add(listOfGroups.get(i));
+		}
+			
+		if (!query.equals("")) {
+			for (int i = listItems.size() - 1; i >= 0; i--) {
+				String s = listItems.get(i);
+				if (s.toLowerCase(Locale.US).indexOf(query) >= 0) {
+					System.out.println("GROUP: " + s);
+				} else {
+					listItems.remove(i);
+				}
+			}
+		}
+		
+		adapter = new StableArrayAdapter(DisplayGroup.this,
+				android.R.layout.simple_list_item_1, listItems);
+		listViewGroups.setAdapter(adapter);			
+	}	
+	
+	
+	
 	/**
 	 * When a group is clicked for a long duration, a dialog confirms with 
 	 * user if he/she wants to entirely delete the group
@@ -181,30 +242,6 @@ public class DisplayGroup extends Activity {
 		public boolean hasStableIds() {
 			return true;
 		}
-		
-		@SuppressWarnings("unchecked")
-		public void filterResults(String query) {
-			query = query.toLowerCase(Locale.US);
-			GroupDB gdb = new GroupDB(getApplicationContext());
-			//this.list_items=gdb.getAllGroups();
-			this.list_items = (List<String>)listOfGroups;
-			//this.list_items = (List<String>) (this.before_search);
-					
-			if (!query.equals("")) {
-				for (int i = list_items.size() - 1; i >= 0; i--) {
-					String s = list_items.get(i);
-					if (s.toLowerCase(Locale.US)
-							.indexOf(query) >= 0
-							) {
-					} else {
-						list_items.remove(i);
-					}
-				}
-			}
-			notifyDataSetChanged();
-			this.list_items = listOfGroups;
-			
-		}	
 	}
 
 	/**
@@ -214,6 +251,5 @@ public class DisplayGroup extends Activity {
 	public void onCreateGrpButtonClick(View view){
 		Intent toCreateGrpActivity = new Intent(this, CreateGroup.class);
 		startActivity(toCreateGrpActivity);
-	}
-	
+	}	
 }

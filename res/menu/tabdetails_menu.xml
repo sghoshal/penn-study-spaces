@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+        
+    <!-- Help -->
+    <item
+        android:id="@+id/tabdetails_action_help"
+        android:icon="@drawable/ic_action_help"
+        android:showAsAction="always"
+        android:onClick="onHelpClick"
+        android:title="Help"/>
+    
+</menu>

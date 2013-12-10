@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -28,7 +29,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
@@ -64,10 +64,15 @@ public class StudySpaceListActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.sslist);
 		Log.e("TAG", "In StudySpaceList");
-
+		
+		// get action bar   
+        ActionBar actionBar = getActionBar();
+        // Enabling Up / Back navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        
 		captureViewElements();
 		setTextFont();
 		favorites = getSharedPreferences(FAV_PREFERENCES, 0);
@@ -78,8 +83,9 @@ public class StudySpaceListActivity extends ListActivity {
 		// display
 
 		Map<String, ?> items = favorites.getAll();
-		preferences = new Preferences(); // Change this when bundle is
-		// implemented.
+		preferences = new Preferences(); 
+		
+		// Change this when bundle is implemented.
 		for (String s : items.keySet()) {
 			if (Boolean.parseBoolean(items.get(s).toString())) {
 				preferences.addFavorites(s);
@@ -679,11 +685,18 @@ public class StudySpaceListActivity extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
+		inflater.inflate(R.menu.ss_list_menu, menu);
+		setTitle("Search Results");
+		getActionBar().setDisplayShowTitleEnabled(true);
 		return true;
 	}
 
-
+	public boolean onHelpClick(MenuItem menu) {
+		System.out.println("Click the help button!");
+		Intent intent = new Intent(this, Help.class);
+		startActivity(intent);
+		return false;
+	}
 
 	public ArrayList<StudySpace> getList() {
 		return ss_list;

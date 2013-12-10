@@ -10,19 +10,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
 
 @TargetApi(Build.VERSION_CODES.DONUT)
 @SuppressLint("NewApi")
-public class Help extends Activity implements OnClickListener, OnInitListener{
+public class Help extends Activity implements OnInitListener{
 	
 	private TextToSpeech tts;
-	private Button voiceHelpButton;
-	private boolean muteSpeaker = false;
+	private boolean muteSpeaker = true;
 	
 	@SuppressLint("NewApi")
 	@Override
@@ -30,8 +30,6 @@ public class Help extends Activity implements OnClickListener, OnInitListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.help);	
 		tts = new TextToSpeech(this, this);
-		voiceHelpButton = (Button) findViewById(R.id.voiceHelpButton);
-		voiceHelpButton.setOnClickListener(this);
 		
 		// get action bar   
         ActionBar actionBar = getActionBar();
@@ -39,14 +37,32 @@ public class Help extends Activity implements OnClickListener, OnInitListener{
         actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
-	@TargetApi(Build.VERSION_CODES.DONUT)
-	@SuppressLint("NewApi")
 	@Override
-	public void onClick(View v) {
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		//inflater.inflate(R.menu.menu, menu);
+		inflater.inflate(R.menu.help_menu, menu);
+		setTitle("StudySpaces");
+		getActionBar().setDisplayShowTitleEnabled(true);
+		return true;
+	}
+
+	public boolean onSpeakerOnClick(MenuItem menu) {
+		muteSpeaker = false;
+		startSpeaking();
+		return true;
+	}
+	
+	public boolean onSpeakerOffClick(MenuItem menu) {
+		
+		if (tts.isSpeaking()) 
+			tts.stop();
+		muteSpeaker = true;
+		return true;
+	}
+	
+	public void startSpeaking() {
 		if (tts != null) {
-			muteSpeaker = !muteSpeaker;
-			
-			
 			
 			String text = "Welcome to Penn Study Spaces";
 			System.out.println(text);
@@ -56,15 +72,11 @@ public class Help extends Activity implements OnClickListener, OnInitListener{
 			text += getResources().getString(R.string.map_screen_help);
 			
 			if (text != null) {
-				if (!tts.isSpeaking() && muteSpeaker) {
+				if (!tts.isSpeaking())
 					tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-				}
-				else if(tts.isSpeaking() && !muteSpeaker) {
-					tts.stop();
-				}	
+	
 			}
-		}
-			
+		}	
 	}
 	
 

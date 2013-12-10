@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import edu.upenn.cis573.R;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -23,19 +24,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
-import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.location.Location;
-import android.location.Criteria;
-import android.location.LocationManager;
+import android.widget.Toast;
 
 public class SearchActivity extends Activity {
 
@@ -81,9 +78,10 @@ public class SearchActivity extends Activity {
 	private CheckBox mOthBox;
 	private CheckBox mAll;
 
-	private Button mPickStartTime;
-	private Button mPickEndTime;
-	private Button mPickDate;
+	private ImageButton mPickStartTime;
+	private ImageButton mPickEndTime;
+	private ImageButton mPickDate;
+	
 	private Button mFavoritesButton;
 	private Button mAddGroupButton;
 	private Button mViewGroupButton;
@@ -194,9 +192,9 @@ public class SearchActivity extends Activity {
 		mDateDisplay.setTypeface(robotoRegular);
 		mStartTimeDisplay.setTypeface(robotoRegular);
 		mEndTimeDisplay.setTypeface(robotoRegular);
-		mPickDate.setTypeface(robotoCondensedRegular);
-		mPickStartTime.setTypeface(robotoCondensedRegular);
-		mPickEndTime.setTypeface(robotoCondensedRegular);
+//		mPickDate.setTypeface(robotoCondensedRegular);
+//		mPickStartTime.setTypeface(robotoCondensedRegular);
+//		mPickEndTime.setTypeface(robotoCondensedRegular);
 	}
 
 	@Override
@@ -264,24 +262,6 @@ public class SearchActivity extends Activity {
 		setTitle("StudySpaces");
 		getActionBar().setDisplayShowTitleEnabled(true);
 		return true;
-	}
-
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Take appropriate action for each action item click
-		switch (item.getItemId()) {
-		case R.id.action_menu:
-			// search action
-			return true;
-
-		case R.id.action_help:
-			// help action
-			return true;
-
-		default:
-			return super.onOptionsItemSelected(item);
-		}
 	}
 
 	public boolean onMyGroupsClick(MenuItem menu) {
@@ -1009,9 +989,10 @@ public class SearchActivity extends Activity {
 
 		mNumberOfPeopleSlider = (SeekBar)findViewById(R.id.numberOfPeopleSlider);
 
-		mPickStartTime = (Button) findViewById(R.id.pickStartTime);
-		mPickEndTime = (Button) findViewById(R.id.pickEndTime);
-		mPickDate = (Button) findViewById(R.id.pickDate);
+		mPickStartTime = (ImageButton) findViewById(R.id.pickStartTime);
+		mPickEndTime = (ImageButton) findViewById(R.id.pickEndTime);
+		mPickDate = (ImageButton) findViewById(R.id.pickDate);
+		
 		searchButton = (Button) findViewById(R.id.searchButton);
 		findNowButton = (Button) findViewById(R.id.findNowButton);
 		whenToMeetButton = (Button) findViewById(R.id.whenToMeetButton);

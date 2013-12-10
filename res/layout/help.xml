@@ -15,21 +15,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:text="Help:"
-            android:textColor="@color/lightblue"
-            android:textSize="24sp" />
-
-        <Button
-            android:id="@+id/voiceHelpButton"
-            android:layout_width="91dp"
-            android:layout_height="wrap_content"
-            android:text="Voice Help" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
             android:text="Search Screen"
             android:textColor="@color/lightblue"
             android:textSize="24sp" />

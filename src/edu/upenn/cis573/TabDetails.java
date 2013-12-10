@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -49,10 +53,11 @@ public class TabDetails extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+        
 		View view = inflater.inflate(R.layout.tabdetails, container, false);
 		return view;
 	}
+	
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -198,10 +203,12 @@ public class TabDetails extends Fragment {
 				an.setVisibility(View.GONE);
 		}
 	}
+	
 	public void onFavClick(View v){
 		unfav.setVisibility(View.VISIBLE);
 		fav.setVisibility(View.GONE);
 	}
+	
 	public void onRemoveFavClick(View v){
 		fav.setVisibility(View.VISIBLE);
 		unfav.setVisibility(View.GONE);

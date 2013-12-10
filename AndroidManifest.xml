@@ -28,7 +28,8 @@
         <activity
             android:name="edu.upenn.cis573.StudySpaceListActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            >
         </activity>
         <activity
             android:name="edu.upenn.cis573.StudySpaceDetails"
@@ -49,7 +50,7 @@
             android:name="edu.upenn.cis573.Help"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:parentActivityName="edu.upenn.cis573.SearchActivity" > >
+            android:parentActivityName="edu.upenn.cis573.SearchActivity" >
         </activity>
         <activity
             android:name="edu.upenn.cis573.CustomMap"
@@ -74,7 +75,8 @@
         <activity
             android:name="edu.upenn.cis573.DisplayGroup"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:parentActivityName="edu.upenn.cis573.SearchActivity" >
         </activity>
         <activity
             android:name="edu.upenn.cis573.GroupContact"

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- Speaker On-->
+    <item
+        android:id="@+id/speaker_on"
+        android:icon="@drawable/ic_action_volume_on"
+        android:showAsAction="always"
+		android:onClick="onSpeakerOnClick"
+        android:title="Voice On" />
+
+        
+    <!-- Speaker Off -->
+    <item
+        android:id="@+id/speaker_off"
+        android:icon="@drawable/ic_action_volume_muted"
+        android:showAsAction="always"
+        android:onClick="onSpeakerOffClick"
+        android:title="Voice Off"/>
+    
+</menu>
